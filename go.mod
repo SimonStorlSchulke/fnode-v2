@@ -1,6 +1,6 @@
 module fnode2
 
-go 1.21.7
+go 1.22
 
 require github.com/Microsoft/go-winio v0.6.1
 
