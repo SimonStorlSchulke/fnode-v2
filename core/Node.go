@@ -90,7 +90,7 @@ func (node *Node) GetInputValue(inputId int) any {
 		return node.Inputs[inputId].DefaultValue
 	}
 
-	return connectedNode.OutputValue(inputLink.FromOutput) //F TODO
+	return connectedNode.OutputValue(inputLink.FromOutput)
 }
 
 func (node *Node) OutputValue(index int) any {

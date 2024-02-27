@@ -1,0 +1,52 @@
+
+[[Links]]
+  FromNode = "Value_b1070217-5df0-48c5-a452-5100c14caaba"
+  FromOutput = 0
+  ToInput = 1
+  ToNode = "Math_254a4014-9e22-4fae-a621-7cb6270b606d"
+
+[[Links]]
+  FromNode = "Math_399f21ff-4d2f-4051-879c-ef4b81bd0c82"
+  FromOutput = 0
+  ToInput = 0
+  ToNode = "Math_254a4014-9e22-4fae-a621-7cb6270b606d"
+
+[[Links]]
+  FromNode = "Math_254a4014-9e22-4fae-a621-7cb6270b606d"
+  FromOutput = 0
+  ToInput = 0
+  ToNode = "Print_c6839838-112b-4ac1-9fde-6938f6a14b79"
+
+[[Nodes]]
+  Id = "Math_254a4014-9e22-4fae-a621-7cb6270b606d"
+  InputDefaultValues = [2.0, 1.0]
+  Type = "Math"
+
+  [Nodes.Options]
+
+    [Nodes.Options.Mode]
+      SelectedOption = "Multiply"
+
+[[Nodes]]
+  Id = "Math_399f21ff-4d2f-4051-879c-ef4b81bd0c82"
+  InputDefaultValues = [1.0, 10.0]
+  Type = "Math"
+
+  [Nodes.Options]
+
+    [Nodes.Options.Mode]
+      SelectedOption = "Add"
+
+[[Nodes]]
+  Id = "Value_b1070217-5df0-48c5-a452-5100c14caaba"
+  InputDefaultValues = [4.0]
+  Type = "Value"
+
+  [Nodes.Options]
+
+[[Nodes]]
+  Id = "Print_c6839838-112b-4ac1-9fde-6938f6a14b79"
+  InputDefaultValues = [""]
+  Type = "Print"
+
+  [Nodes.Options]
