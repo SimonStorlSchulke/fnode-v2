@@ -1,8 +1,8 @@
 package core
 
 type NodeLink struct {
-	FromNode   int
+	FromNode   string
 	FromOutput int
-	ToNode     int
+	ToNode     string
 	ToInput    int
 }

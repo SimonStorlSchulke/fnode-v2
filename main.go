@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"fnode2/core"
 	"slices"
 )
 
@@ -63,11 +64,6 @@ var NodeLinks []NodeLink = []NodeLink{
 	},
 }
 
-var Nodes map[int]*SNode = map[int]*SNode{
-	0: NewValueNode().SetInputDefaultValue(0, 4.0).SetId(0),
-	1: NewMathNode().SetInputDefaultValue(0, 2.0).SetId(1),
-}
-
 func NewMathNode() *SNode {
 	return &SNode{
 		Inputs: []NodeInput[any]{
@@ -109,7 +105,6 @@ func (n *SNode) GetInputValue(index int) any {
 		fmt.Println(matchingLinkIndex)
 		return Nodes[link.FromNode].OutputValue(link.FromOutput)
 	}
-
 }
 
 func (n *SNode) OutputValue(index int) any {
@@ -123,6 +118,10 @@ func (n *SNode) OutputValue(index int) any {
 }
 
 func main() {
+
+	tree := core.NodeTree{Nodes: }
+
+
 	g := Nodes[1].OutputValue(0)
 	fmt.Println(g)
 }
