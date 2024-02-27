@@ -1,127 +1,57 @@
 package main
 
 import (
-	"fmt"
 	"fnode2/core"
-	"slices"
+	"fnode2/nodes"
 )
-
-type FStringValue struct {
-	value string
-}
-
-type NodeLink struct {
-	FromNode   int
-	FromOutput int
-	ToNode     int
-	ToInput    int
-}
-
-func (v FStringValue) get() string {
-	return v.value
-}
-
-type NodeInput[t any] struct {
-	Name         string
-	DefaultValue t
-}
-
-type NodeOutput[t any] func(inputs []any) t
-
-type Node interface {
-	Inputs() []NodeInput[any]
-	Outputs() []NodeOutput[any]
-}
-
-type SNode struct {
-	Id      int
-	Inputs  []NodeInput[any]
-	Outputs []NodeOutput[any]
-}
-
-func NewValueNode() *SNode {
-	return &SNode{
-		Inputs: []NodeInput[any]{
-			{
-				Name:         "value",
-				DefaultValue: 1.0,
-			},
-		},
-		Outputs: []NodeOutput[any]{
-			func(inputs []any) any {
-				return inputs[0].(float64)
-			},
-		},
-	}
-}
-
-var NodeLinks []NodeLink = []NodeLink{
-	{
-		FromNode:   0,
-		FromOutput: 0,
-		ToNode:     1,
-		ToInput:    1,
-	},
-}
-
-func NewMathNode() *SNode {
-	return &SNode{
-		Inputs: []NodeInput[any]{
-			{
-				Name:         "a",
-				DefaultValue: 1.0,
-			},
-			{
-				Name:         "b",
-				DefaultValue: 1.0,
-			},
-		},
-		Outputs: []NodeOutput[any]{
-			func(inputs []any) any {
-				return inputs[0].(float64) * inputs[1].(float64)
-			},
-		},
-	}
-}
-
-func (n *SNode) SetInputDefaultValue(index int, value any) *SNode {
-	n.Inputs[index].DefaultValue = value
-	return n
-}
-
-func (n *SNode) SetId(id int) *SNode {
-	n.Id = id
-	return n
-}
-
-func (n *SNode) GetInputValue(index int) any {
-	//connectedTo :=
-	matchingLinkIndex := slices.IndexFunc(NodeLinks, func(link NodeLink) bool { return link.ToNode == n.Id && link.ToInput == index })
-
-	if matchingLinkIndex == -1 {
-		return n.Inputs[index].DefaultValue
-	} else {
-		link := NodeLinks[matchingLinkIndex]
-		fmt.Println(matchingLinkIndex)
-		return Nodes[link.FromNode].OutputValue(link.FromOutput)
-	}
-}
-
-func (n *SNode) OutputValue(index int) any {
-	inputValues := make([]any, len(n.Inputs))
-
-	for i, _ := range n.Inputs {
-		inputValues[i] = n.GetInputValue(i)
-	}
-
-	return n.Outputs[index](inputValues)
-}
 
 func main() {
 
-	tree := core.NodeTree{Nodes: }
+	tree := core.NodeTree{}
 
+	mn := nodes.NewMathNode()
+	vn := nodes.NewValueNode()
 
-	g := Nodes[1].OutputValue(0)
-	fmt.Println(g)
+	vn.SetInputDefaultValue(0, 4.0)
+
+	mn.SetInputDefaultValue(0, 2.0)
+
+	mn2 := nodes.NewMathNode()
+
+	mn2.SetInputDefaultValue(1, 10.0)
+
+	mn.SetOption("Mode", "Multiply")
+	mn2.SetOption("Mode", "Add")
+
+	pn := nodes.NewPrintNode()
+
+	tree.AddNode(mn)
+	tree.AddNode(mn2)
+	tree.AddNode(vn)
+	tree.AddNode(pn)
+
+	tree.AddLink(&core.NodeLink{
+		FromNode:   vn.Id,
+		FromOutput: 0,
+		ToNode:     mn.Id,
+		ToInput:    1,
+	})
+
+	tree.AddLink(&core.NodeLink{
+		FromNode:   mn2.Id,
+		FromOutput: 0,
+		ToNode:     mn.Id,
+		ToInput:    0,
+	})
+
+	tree.AddLink(&core.NodeLink{
+		FromNode:   mn.Id,
+		FromOutput: 0,
+		ToNode:     pn.Id,
+		ToInput:    0,
+	})
+
+	tree.Parse()
+
+	//treeIo.SaveToFile(&tree, "testfiles", "hello-toml")
 }

@@ -2,7 +2,7 @@ package nodes
 
 import "fnode2/core"
 
-func valueOutput(inputs []any) any {
+func valueOutput(inputs []any, _ map[string]*core.NodeOption) any {
 	return inputs[0].(float64)
 }
 
