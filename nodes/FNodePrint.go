@@ -15,7 +15,7 @@ func NewPrintNode() *core.Node {
 		[]core.NodeInput{
 			core.NewStringInput("Text", ""),
 		},
-		[]core.NodeOutputFunc{},
+		[]*core.NodeOutput{},
 	)
 
 	node.ExecutiveFunction = printOutput

@@ -27,7 +27,7 @@ type Node struct {
 	Type              string
 	Id                string
 	Inputs            []NodeInput
-	Outputs           []NodeOutputFunc
+	Outputs           []*NodeOutput
 	Tree              *NodeTree
 	Options           map[string]*NodeOption
 	ExecutiveFunction ExecutiveFunction
@@ -116,10 +116,10 @@ func (node *Node) OutputValue(index int) any {
 		inputValues[i] = node.GetInputValue(i)
 	}
 
-	return node.Outputs[index](inputValues, node.Options)
+	return node.Outputs[index].Operator(inputValues, node.Options)
 }
 
-func NewNode(nodeType string, inputs []NodeInput, outputs []NodeOutputFunc) *Node {
+func NewNode(nodeType string, inputs []NodeInput, outputs []*NodeOutput) *Node {
 	id := nodeType + "_" + guid.New().String()
 	return &Node{
 		Type:    nodeType,
