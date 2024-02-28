@@ -3,16 +3,16 @@ package core
 import (
 	"fmt"
 	"github.com/beevik/guid"
-	"log"
 	"slices"
 )
 
-type NodeOutput[t any] func(inputs []any, Options map[string]*NodeOption) t
+type NodeOutputFunc func(inputs []any, Options map[string]*NodeOption) any
 type ExecutiveFunction func(inputs []any, Options map[string]*NodeOption)
 
 type NodeOption struct {
 	Choices        []string
 	SelectedOption string
+	Callback       func(node *Node)
 }
 
 type SerializableNodeOption struct {
@@ -26,8 +26,8 @@ func (nodeOption *NodeOption) ToSerializable() SerializableNodeOption {
 type Node struct {
 	Type              string
 	Id                string
-	Inputs            []NodeInput[any]
-	Outputs           []NodeOutput[any]
+	Inputs            []NodeInput
+	Outputs           []NodeOutputFunc
 	Tree              *NodeTree
 	Options           map[string]*NodeOption
 	ExecutiveFunction ExecutiveFunction
@@ -42,6 +42,17 @@ func (node *Node) AddOption(key string, choices []string) {
 		node.Options = map[string]*NodeOption{}
 	}
 	node.Options[key] = &NodeOption{Choices: choices}
+	node.SetOptionCallback(key, nil)
+	node.Options[key].SelectedOption = choices[0]
+}
+
+func (node *Node) SetOptionCallback(key string, callback func(node *Node)) {
+	node.Options[key].Callback = func(node *Node) {
+		Log("Set Option of %s %s to %s", LogLevelInfo, node.Id, key, node.Options[key].SelectedOption)
+		if callback != nil {
+			callback(node)
+		}
+	}
 }
 
 func (node *Node) SetOption(key string, choice string) {
@@ -52,11 +63,12 @@ func (node *Node) SetOption(key string, choice string) {
 
 	idx := slices.IndexFunc(node.Options[key].Choices, func(choice string) bool { return choice == choice })
 	if idx == -1 {
-		fmt.Printf("\n%s is not a valid choice for option with key %s", choice, key)
+		Log("%s is not a valid choice for option with key %s", LogLevelError, choice, key)
 		return
 	}
 
 	node.Options[key].SelectedOption = choice
+	node.Options[key].Callback(node)
 }
 
 func (node *Node) findLinksOfOutput(outputId int) []*NodeLink {
@@ -86,9 +98,13 @@ func (node *Node) GetInputValue(inputId int) any {
 	connectedNode := node.Tree.Nodes[inputLink.FromNode]
 
 	if connectedNode == nil {
-		log.Fatal("Node not found in NodeTree")
+		Log("Node not found in NodeTree", LogLevelError)
 		return node.Inputs[inputId].DefaultValue
 	}
+
+	/*	if()
+
+		node.Inputs[inputId]*/
 
 	return connectedNode.OutputValue(inputLink.FromOutput)
 }
@@ -103,7 +119,7 @@ func (node *Node) OutputValue(index int) any {
 	return node.Outputs[index](inputValues, node.Options)
 }
 
-func NewNode(nodeType string, inputs []NodeInput[any], outputs []NodeOutput[any]) *Node {
+func NewNode(nodeType string, inputs []NodeInput, outputs []NodeOutputFunc) *Node {
 	id := nodeType + "_" + guid.New().String()
 	return &Node{
 		Type:    nodeType,

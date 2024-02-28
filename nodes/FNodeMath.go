@@ -35,22 +35,24 @@ func NewMathNode() *core.Node {
 
 	node := core.NewNode(
 		"Math",
-		[]core.NodeInput[any]{
-			{
-				Name:         "a",
-				DefaultValue: 1.0,
-			},
-			{
-				Name:         "b",
-				DefaultValue: 1.0,
-			},
+		[]core.NodeInput{
+			core.NewFloatInput("a", 1),
+			core.NewFloatInput("b", 1),
 		},
-		[]core.NodeOutput[any]{
+		[]core.NodeOutputFuncFunc{
 			mathOutput,
 		},
 	)
 
-	node.AddOption("Mode", []string{"Add", "Subtract", "Multiply", "Divide", "Power", "Square Root", "Sin", "Cos"})
+	node.AddOption("Mode", []string{
+		"Add",
+		"Subtract",
+		"Multiply",
+		"Divide",
+		"Power",
+		"Square Root",
+		"Sin",
+		"Cos"})
 
 	return node
 }

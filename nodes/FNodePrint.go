@@ -12,13 +12,10 @@ func printOutput(inputs []any, _ map[string]*core.NodeOption) {
 func NewPrintNode() *core.Node {
 	node := core.NewNode(
 		"Print",
-		[]core.NodeInput[any]{
-			{
-				Name:         "Text",
-				DefaultValue: "",
-			},
+		[]core.NodeInput{
+			core.NewStringInput("Text", ""),
 		},
-		[]core.NodeOutput[any]{},
+		[]core.NodeOutputFunc{},
 	)
 
 	node.ExecutiveFunction = printOutput

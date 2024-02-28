@@ -9,13 +9,10 @@ func valueOutput(inputs []any, _ map[string]*core.NodeOption) any {
 func NewValueNode() *core.Node {
 	return core.NewNode(
 		"Value",
-		[]core.NodeInput[any]{
-			{
-				Name:         "value",
-				DefaultValue: 1.0,
-			},
+		[]core.NodeInput{
+			core.NewFloatInput("value", 1),
 		},
-		[]core.NodeOutput[any]{
+		[]core.NodeOutputFunc{
 			valueOutput,
 		},
 	)
