@@ -35,8 +35,8 @@ func NewMathNode() *core.Node {
 	node := core.NewNode(
 		"Math",
 		[]core.NodeInput{
-			core.NewFloatInput("a", 1),
-			core.NewFloatInput("b", 1),
+			core.NewNodeInput(core.FTypeFloat, "a", 1.0),
+			core.NewNodeInput(core.FTypeFloat, "b", 1.0),
 		},
 		[]*core.NodeOutput{
 			mathResultOutput,

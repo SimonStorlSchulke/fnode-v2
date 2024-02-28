@@ -102,14 +102,17 @@ func (node *Node) GetInputValue(inputId int) any {
 		return node.Inputs[inputId].DefaultValue
 	}
 
-	/*	if()
+	outputType := connectedNode.Outputs[inputLink.FromOutput].Type
+	inputType := node.Inputs[inputId].Type
 
-		node.Inputs[inputId]*/
+	if outputType != inputType {
 
-	return connectedNode.OutputValue(inputLink.FromOutput)
+	}
+	outputValue := connectedNode.outputValue(inputLink.FromOutput, outputType)
+	return AutoConvertTypes(outputType, inputType, outputValue)
 }
 
-func (node *Node) OutputValue(index int) any {
+func (node *Node) outputValue(index int, outputType int) any {
 	inputValues := make([]any, len(node.Inputs))
 
 	for i, _ := range node.Inputs {

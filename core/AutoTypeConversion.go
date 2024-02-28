@@ -33,5 +33,27 @@ var typeConversions map[int]map[int]func(input any) any = map[int]map[int]func(i
 	},
 }
 
-func AutoConvertTypes(fromOutput NodeOutputFunc, toInput NodeInput) {
+func fallbackValue(ofType int) any {
+	switch ofType {
+	case FTypeFloat:
+		return 0.0
+	case FTypeInt:
+		return 0
+	case FTypeString:
+		return ""
+	default:
+		panic("unknown FType in fallbackValue()")
+	}
+}
+
+func AutoConvertTypes(fromType int, toType int, value any) any {
+	if fromType == toType {
+		return value
+	}
+
+	if typeConversions[fromType] == nil || typeConversions[fromType][toType] == nil {
+		return fallbackValue(toType)
+	}
+
+	return typeConversions[fromType][toType](value)
 }

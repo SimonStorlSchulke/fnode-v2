@@ -11,7 +11,7 @@ func NewValueNode() *core.Node {
 	return core.NewNode(
 		"Value",
 		[]core.NodeInput{
-			core.NewFloatInput("value", 1),
+			core.NewNodeInput(core.FTypeFloat, "value", 1.0),
 		},
 		[]*core.NodeOutput{
 			valueOutput,

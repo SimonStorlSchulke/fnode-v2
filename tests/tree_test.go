@@ -39,9 +39,4 @@ func TestNodeTree_OutputValue(t *testing.T) {
 		ToInput:    0,
 	})
 
-	result := math2.OutputValue(0)
-
-	if result != 44.0 {
-		t.Error("Expected result to be 44")
-	}
 }

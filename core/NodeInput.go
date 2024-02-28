@@ -4,7 +4,6 @@ const (
 	FTypeFloat = iota
 	FTypeInt
 	FTypeString
-	FTypeAny
 	FTypeStringList
 	FTypeFloatList
 	FTypeIntList
@@ -16,18 +15,10 @@ type NodeInput struct {
 	DefaultValue any
 }
 
-func NewFloatInput(name string, initialDefaultValue float64) NodeInput {
+func NewNodeInput(Type int, name string, initialDefaultValue any) NodeInput {
 	return NodeInput{
 		Name:         name,
-		Type:         FTypeFloat,
-		DefaultValue: initialDefaultValue,
-	}
-}
-
-func NewStringInput(name string, initialDefaultValue string) NodeInput {
-	return NodeInput{
-		Name:         name,
-		Type:         FTypeString,
+		Type:         Type,
 		DefaultValue: initialDefaultValue,
 	}
 }

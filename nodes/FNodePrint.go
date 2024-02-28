@@ -13,7 +13,7 @@ func NewPrintNode() *core.Node {
 	node := core.NewNode(
 		"Print",
 		[]core.NodeInput{
-			core.NewStringInput("Text", ""),
+			core.NewNodeInput(core.FTypeString, "Text", ""),
 		},
 		[]*core.NodeOutput{},
 	)

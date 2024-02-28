@@ -23,11 +23,15 @@ func main() {
 	mn.SetOption("Mode", "Multiply")
 	mn2.SetOption("Mode", "Add")
 
+	tn := nodes.NewTextNode()
+	tn.SetInputDefaultValue(0, "12.130")
+
 	pn := nodes.NewPrintNode()
 
 	tree.AddNode(mn)
 	tree.AddNode(mn2)
 	tree.AddNode(vn)
+	tree.AddNode(tn)
 	tree.AddNode(pn)
 
 	tree.AddLink(&core.NodeLink{
@@ -38,7 +42,7 @@ func main() {
 	})
 
 	tree.AddLink(&core.NodeLink{
-		FromNode:   mn2.Id,
+		FromNode:   tn.Id,
 		FromOutput: 0,
 		ToNode:     mn.Id,
 		ToInput:    0,
