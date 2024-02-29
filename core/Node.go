@@ -98,7 +98,7 @@ func (node *Node) GetInputValue(inputId int) any {
 	connectedNode := node.Tree.Nodes[inputLink.FromNode]
 
 	if connectedNode == nil {
-		Log("Node not found in NodeTree", LogLevelError)
+		Log("Node not found in NodeTree", LogLevelPanic)
 		return node.Inputs[inputId].DefaultValue
 	}
 
