@@ -1,0 +1,10 @@
+{
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#0D3508",
+        "titleBar.activeBackground": "#124B0B",
+        "titleBar.activeForeground": "#F2FDF0"
+    },
+    "svelte.plugin.svelte.compilerWarnings": {
+        "a11y-click-events-have-key-events": "ignore",
+      },
+}
