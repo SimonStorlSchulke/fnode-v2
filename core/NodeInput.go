@@ -4,6 +4,7 @@ const (
 	FTypeFloat = iota
 	FTypeInt
 	FTypeString
+	FTypeBool
 	FTypeStringList
 	FTypeFloatList
 	FTypeIntList

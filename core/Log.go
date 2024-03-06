@@ -11,6 +11,10 @@ const (
 	LogLevelPanic
 )
 
+func NodeLog(string string) {
+	fmt.Println(string)
+}
+
 func Log(format string, level int, args ...any) {
 	formatString := fmt.Sprintf(format, args...)
 	levelString := []string{"Info: ", "Warning: ", "Error: ", "Panic: "}[level]

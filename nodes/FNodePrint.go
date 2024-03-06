@@ -1,16 +1,16 @@
 package nodes
 
 import (
-	"fmt"
 	"fnode2/core"
+	"fnode2/core/InteractionLayer"
 )
 
-func printOutput(inputs []any, _ map[string]*core.NodeOption) {
-	fmt.Println(inputs[0])
+func printOutput(interactionLayer InteractionLayer.NodeInteractionLayer, inputs []any, _ map[string]*core.NodeOption) {
+	interactionLayer.Print(inputs[0].(string))
 }
 
-func NewPrintNode() *core.Node {
-	node := core.NewNode(
+func newPrintNode() *core.Node {
+	node := core.NewNodeCreator(
 		"Print",
 		[]core.NodeInput{
 			core.NewNodeInput(core.FTypeString, "Text", ""),

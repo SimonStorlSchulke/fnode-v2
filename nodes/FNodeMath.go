@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-var mathResultOutput *core.NodeOutput = core.NewNodeOutput(core.FTypeFloat, "Result",
+var mathResultOutput = core.NewNodeOutput(core.FTypeFloat, "Result",
 	func(inputs []any, Options map[string]*core.NodeOption) any {
 		a := inputs[0].(float64)
 		b := inputs[1].(float64)
@@ -29,18 +29,17 @@ var mathResultOutput *core.NodeOutput = core.NewNodeOutput(core.FTypeFloat, "Res
 		}
 
 		return 0.0
-	})
+	},
+	true)
 
-func NewMathNode() *core.Node {
-	node := core.NewNode(
+func newMathNode() *core.Node {
+	node := core.NewNodeCreator(
 		"Math",
 		[]core.NodeInput{
 			core.NewNodeInput(core.FTypeFloat, "a", 1.0),
 			core.NewNodeInput(core.FTypeFloat, "b", 1.0),
 		},
-		[]*core.NodeOutput{
-			mathResultOutput,
-		},
+		[]*core.NodeOutput{mathResultOutput},
 	)
 
 	node.AddOption("Mode", []string{

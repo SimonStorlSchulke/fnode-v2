@@ -2,10 +2,10 @@
   "$schema": "https://wails.io/schemas/config.v2.json",
   "name": "fnode2",
   "outputfilename": "fnode2",
+  "frontend:build": "npx ng build",
   "frontend:install": "npm install",
-  "frontend:build": "npm run build",
-  "frontend:dev:watcher": "npm run dev",
-  "frontend:dev:serverUrl": "auto",
+  "frontend:dev:watcher": "npx ng serve",
+  "frontend:dev:serverUrl": "http://localhost:4200",
   "author": {
     "name": "SimonStorlSchulke",
     "email": "simonstoschu@googlemail.com"

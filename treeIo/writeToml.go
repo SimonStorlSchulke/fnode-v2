@@ -8,7 +8,7 @@ import (
 	"path"
 )
 
-func Serialize(tree *core.NodeTree) ([]byte, error) {
+func serialize(tree *core.NodeTree) ([]byte, error) {
 	serializable := tree.ToSerializable()
 	data, err := toml.Marshal(serializable)
 	return data, err
@@ -23,7 +23,7 @@ func createDirIfNotExists(path string) error {
 }
 
 func SaveToFile(tree *core.NodeTree, directory string, fileName string) {
-	data, err := Serialize(tree)
+	data, err := serialize(tree)
 	if err != nil {
 		fmt.Println(err)
 		return
