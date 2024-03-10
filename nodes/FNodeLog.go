@@ -9,9 +9,10 @@ func printOutput(interactionLayer InteractionLayer.NodeInteractionLayer, inputs 
 	interactionLayer.Print(inputs[0].(string))
 }
 
-func newPrintNode() *core.Node {
+func newLogNode() *core.Node {
 	node := core.NewNodeCreator(
-		"Print",
+		"Log",
+		"Output",
 		[]core.NodeInput{
 			core.NewNodeInput(core.FTypeString, "Text", ""),
 		},

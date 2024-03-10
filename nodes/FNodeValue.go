@@ -11,6 +11,7 @@ var valueOutput = core.NewNodeOutput(core.FTypeFloat, "value",
 func newValueNode() *core.Node {
 	return core.NewNodeCreator(
 		"Value",
+		"Math",
 		[]core.NodeInput{
 			core.NewNodeInput(core.FTypeFloat, "value", 1.0),
 		},

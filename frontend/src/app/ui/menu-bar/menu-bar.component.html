@@ -1,1 +1,16 @@
-<p>menu-bar works!</p>
+@for (menu of content; track menu.key) {
+  <div class="menu">
+    <button (click)="toggleMenu($index)" (mouseenter)="openOnHover($index)" >{{menu.label}}</button>
+    @if ($index == openIndex) {
+      <div class="menu-body vbox">
+        @for (entry of menu.entries; track entry.key) {
+          <button
+            (click)="entrySelected.next([menu.key, entry.key]); closeMenu()"
+            [disabled]="entry.disabled"
+            [title]="entry.tooltip ?? ''"
+          >{{entry.label}}</button>
+        }
+      </div>
+    }
+  </div>
+}

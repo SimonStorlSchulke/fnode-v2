@@ -16,8 +16,9 @@ type NodeOption struct {
 }
 
 type NodeMeta struct {
-	PosX int
-	PosY int
+	PosX     int
+	PosY     int
+	Category string
 }
 
 type SerializableNodeOption struct {
@@ -186,15 +187,16 @@ func (node *Node) RemoveCaches() {
 	}
 }
 
-func NewNodeCreator(nodeType string, inputs []NodeInput, outputs []*NodeOutput) *Node {
+func NewNodeCreator(nodeType string, category string, inputs []NodeInput, outputs []*NodeOutput) *Node {
 	id := nodeType + "_" + guid.New().String()
+
 	return &Node{
 		Type:                nodeType,
 		Id:                  id,
 		Inputs:              inputs,
 		Outputs:             outputs,
 		cachedOutputResults: make([]any, len(outputs)),
-		Meta:                NodeMeta{},
+		Meta:                NodeMeta{Category: category},
 	}
 }
 

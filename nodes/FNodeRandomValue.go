@@ -20,6 +20,7 @@ var randomValueOutput = core.NewNodeOutput(core.FTypeFloat, "Result",
 func newRandomValueNode() *core.Node {
 	return core.NewNodeCreator(
 		"Random Value",
+		"Math",
 		[]core.NodeInput{
 			core.NewNodeInput(core.FTypeFloat, "Min", 0.0),
 			core.NewNodeInput(core.FTypeFloat, "Max", 1.0),

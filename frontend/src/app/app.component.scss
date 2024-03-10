@@ -1,0 +1,23 @@
+@use "theme";
+
+:host {
+  background: theme.$neutral-1;
+  height: 100dvh;
+  width: 100dvw;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-left {
+  width: 240px;
+  min-width: 240px;
+  max-width: 240px;
+}
+
+.editor {
+  position: relative;
+}
+
+.node {
+  position: absolute;
+}

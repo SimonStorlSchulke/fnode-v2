@@ -11,6 +11,7 @@ var textOutput = core.NewNodeOutput(core.FTypeString, "Text",
 func newTextNode() *core.Node {
 	return core.NewNodeCreator(
 		"Value",
+		"Math",
 		[]core.NodeInput{
 			core.NewNodeInput(core.FTypeString, "value", ""),
 		},

@@ -2,16 +2,16 @@ package controller
 
 import (
 	"context"
-	"fmt"
 	"fnode2/core"
 	"fnode2/core/InteractionLayer"
-	"fnode2/nodes"
 	"strconv"
 )
 
 type App struct {
 	ctx context.Context
 }
+
+var appContext context.Context
 
 // NewApp creates a new App application struct
 func NewApp() *App {
@@ -20,16 +20,28 @@ func NewApp() *App {
 
 // Startup is called when the app starts. The context is saved
 // so we can call the runtime methods
-func (a *App) Startup(ctx context.Context) {
-	fmt.Println("YAAAAAa")
+func (a *App) SetContext(ctx context.Context) {
+	appContext = a.ctx
 }
 
-var tree core.NodeTree
+var tree core.NodeTree = core.NodeTree{}
 
-func (a *App) ParseTree() []string {
+func (a *App) ParseTree() {
 	il := InteractionLayer.InteractionLayerExecute{}
 	tree.Parse(&il)
-	return il.GetOutput()
+}
+
+func (a *App) ClearTree() {
+	tree = core.NodeTree{}
+}
+
+func (a *App) UpdateNodePosition(nodeId string, posX int, posY int) {
+	node, err := tree.FindNodeById(nodeId)
+	if err != nil {
+		core.Log("error updating Node position %v", core.LogLevelError, err)
+	}
+	node.Meta.PosX = posX
+	node.Meta.PosY = posY
 }
 
 func (a *App) UpdateInputDefaultValue(nodeId string, inputIndex int, value string, valueType int) {
@@ -50,9 +62,10 @@ func (a *App) UpdateInputDefaultValue(nodeId string, inputIndex int, value strin
 		val = value
 	}
 
-	fmt.Println(nodeId)
-	fmt.Println(inputIndex)
-	fmt.Println(value)
+	core.Log(
+		"Updated default_input of %s input[%v] to %v",
+		core.LogLevelInfo,
+		nodeId, inputIndex, value)
 
 	//kinda ugly. maybe better save nodes in a map with id as key
 	for _, node := range tree.Nodes {
@@ -63,26 +76,19 @@ func (a *App) UpdateInputDefaultValue(nodeId string, inputIndex int, value strin
 	}
 }
 
-// Greet returns a greeting for the given name
-func (a *App) Greet(name string) string {
-	return fmt.Sprintf("Hello %s, It's show time!", name)
-}
-
 func (a *App) GetTestTree() core.SerializableTree {
-	tree = core.NodeTree{}
-
-	vn, _ := nodes.Create("Value")
+	/*vn, _ := nodes.Create("Math.Value")
 	vn.SetInputDefaultValue(0, 4.0)
 
-	math1, _ := nodes.Create("Math")
+	math1, _ := nodes.Create("Math.Math")
 	math1.SetOption("Mode", "Add")
 	math1.SetInputDefaultValue(1, 10.0)
 
-	math2, _ := nodes.Create("Math")
+	math2, _ := nodes.Create("Math.Math")
 	math2.SetOption("Mode", "Multiply")
 	math2.SetInputDefaultValue(0, 2.0)
 
-	printer, _ := nodes.Create("Print")
+	printer, _ := nodes.Create("Output.Print")
 
 	printer.Meta.PosY = 200
 	printer.Meta.PosX = 700
@@ -103,7 +109,7 @@ func (a *App) GetTestTree() core.SerializableTree {
 
 	tree.Link(vn.Id, 0, math2.Id, 1)
 	tree.Link(math1.Id, 0, math2.Id, 0)
-	tree.Link(math2.Id, 0, printer.Id, 0)
+	tree.Link(math2.Id, 0, printer.Id, 0)*/
 
 	return tree.ToSerializable()
 }

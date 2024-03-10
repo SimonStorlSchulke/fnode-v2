@@ -30,6 +30,7 @@ var textReplaceOutput = core.NewNodeOutput(core.FTypeString, "Result",
 func newTextReplaceNode() *core.Node {
 	node := core.NewNodeCreator(
 		"Text Replace",
+		"Text",
 		[]core.NodeInput{
 			core.NewNodeInput(core.FTypeString, "text", ""),
 			core.NewNodeInput(core.FTypeString, "old", ""),

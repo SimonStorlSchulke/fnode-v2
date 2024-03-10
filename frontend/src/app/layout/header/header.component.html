@@ -1,1 +1,8 @@
-<p>header works!</p>
+
+<sui-menu-bar [content]="menuContent" [disabledKeys]="[['edit', 'undo']]"/>
+<div class="window-border grow-1" style="--wails-draggable: drag"></div>
+<div class="window-buttons hbox">
+  <button (click)="minimize()" class="minimize">_</button>
+  <button (click)="maximize()" class="maximize">☐</button>
+  <button class="close"><i-feather name="X"></i-feather></button>
+</div>

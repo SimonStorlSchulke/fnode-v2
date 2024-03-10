@@ -1,0 +1,12 @@
+@use "./button";
+@use "./input";
+@use "./theme";
+@use "./variables" as *;
+
+html,
+body {
+  margin: 0px;
+  color: #eee;
+  background: theme.$neutral-1;
+  font-family: system-ui;
+}

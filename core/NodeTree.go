@@ -28,7 +28,18 @@ func (tree *NodeTree) findExecutiveNodes() []*Node {
 	return executiveNodes
 }
 
+func (tree *NodeTree) FindNodeById(id string) (*Node, error) {
+	foundNode := tree.Nodes[id]
+	if foundNode == nil {
+		return nil, fmt.Errorf("Can't find Node with ID %s.", id)
+	}
+	return foundNode, nil
+}
+
 func (tree *NodeTree) Parse(layer InteractionLayer.NodeInteractionLayer) {
+
+	Log("Parsing NodeTree", LogLevelInfo)
+
 	tree.removeOutputCaches()
 	executives := tree.findExecutiveNodes()
 

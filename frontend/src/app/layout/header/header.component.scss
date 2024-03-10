@@ -1,0 +1,21 @@
+@use "theme";
+
+:host {
+  display: flex;
+  height: 38px;
+  background: theme.$neutral-2;
+  align-items: stretch;
+  user-select: none;
+}
+
+.window-border {
+}
+
+.window-buttons button {
+  height: 100%;
+  width: 40px;
+
+    &.close:hover {
+      background: #932e2e;
+  }
+}

@@ -1,4 +1,4 @@
-export interface NodeTree {
+export interface FTree {
   Nodes: FNode[]
   Links: NodeLink[]
 }
@@ -8,21 +8,37 @@ export interface FNode {
   Id: string
   Inputs: FInput[]
   Outputs: FOutput[],
-  Options: any,
+  Options: Map<string, NodeOption>,
   Meta: {
     PosX: number,
-    PosY: number
+    PosY: number,
+    Category: string,
   }
+}
+
+export interface NodeOption {
+  Choices:        string[],
+  SelectedOption: string,
 }
 
 export interface FOutput {
   Name: string,
-  Type: string,
+  Type: number,
 }
+
+export const FType = {
+  Float: 0,
+  Int: 1,
+  String: 2,
+  Bool: 3,
+  StringList: 4,
+  FloatList: 5,
+  IntList: 6,
+};
 
 export interface FInput {
   Name: string,
-  Type: string,
+  Type: number,
   DefaultValue: any,
 }
 
@@ -39,4 +55,9 @@ export interface NodeLink {
   FromOutput: number
   ToNode: string
   ToInput: number
+}
+
+export interface NodeCategory {
+  Name:      string
+  NodeTypes: string[]
 }
