@@ -1,0 +1,23 @@
+@use "theme";
+
+:host {
+  button {
+    background: linear-gradient(theme.$neutral-3 6px, theme.$neutral-3 6px);
+    padding-top: 12px;
+
+    &:hover:not(.active) {
+      background: linear-gradient(theme.$accent-4 6px, theme.$neutral-3 6px);
+    }
+
+    &.active {
+      background: linear-gradient(theme.$accent-4 6px, transparent 6px);
+    }
+  }
+
+
+  .vbox {
+    button {
+      text-align: left;
+    }
+  }
+}

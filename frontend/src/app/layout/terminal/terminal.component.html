@@ -1,0 +1,11 @@
+<div class="grow-1">
+  <sui-tab-container (switched)="currentTab = $event" [tabs]="['tree output', 'logs']"></sui-tab-container>
+  @switch (currentTab) {
+    @case (0) {
+      <pre class="output">{{text}}</pre>
+    }
+    @case (1) {
+      <pre class="output"><span [innerHTML]="domSanitizer.bypassSecurityTrustHtml(log)"></span></pre>
+    }
+  }
+</div>

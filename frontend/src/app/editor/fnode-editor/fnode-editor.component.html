@@ -1,0 +1,10 @@
+<div class="grid" #editor>
+  @for (fnode of tree?.Nodes; track fnode.Id) {
+    <app-fnode (changedNode)="getTree()" (redrawLinks)="emitNodePositionChangedEvent($event)" [fnode]="fnode"/>
+  }
+  @for (nodeLink of tree?.Links; track nodeLink) {
+    <app-node-link (removed$)="getTree()" [editor]="editor" [nodeLink]="nodeLink" [nodeChanged$]="nodeChanged$"/>
+  }
+</div>
+<button (click)="parseTree()">Parse Tree</button>
+<button (click)="clearTree()">Clear Tree</button>
