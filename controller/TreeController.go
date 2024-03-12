@@ -3,7 +3,6 @@ package controller
 import (
 	"context"
 	"fnode2/core"
-	"fnode2/core/InteractionLayer"
 	"strconv"
 )
 
@@ -27,7 +26,7 @@ func (a *App) SetContext(ctx context.Context) {
 var tree core.NodeTree = core.NodeTree{}
 
 func (a *App) ParseTree() {
-	il := InteractionLayer.InteractionLayerExecute{}
+	il := core.InteractionLayerExecute{}
 	tree.Parse(&il)
 }
 
@@ -44,36 +43,40 @@ func (a *App) UpdateNodePosition(nodeId string, posX int, posY int) {
 	node.Meta.PosY = posY
 }
 
-func (a *App) UpdateInputDefaultValue(nodeId string, inputIndex int, value string, valueType int) {
-
+func (a *App) UpdateInputDefaultValue(nodeId string, inputIndex int, value any, valueType int) {
 	var val any
-
 	switch valueType {
 	case core.FTypeBool:
-		if value == "true" {
-			val = true
-		} else {
-			val = false
-		}
-		break
+		val = value.(bool)
 	case core.FTypeFloat:
-		val, _ = strconv.ParseFloat(value, 64)
+		val, _ = strconv.ParseFloat(value.(string), 64)
+	case core.FTypeInt:
+		intVal, _ := strconv.ParseInt(value.(string), 10, 64)
+		val = int(intVal) // TODO check int overflow
 	case core.FTypeString:
-		val = value
+		val = value.(string)
 	}
 
-	core.Log(
-		"Updated default_input of %s input[%v] to %v",
-		core.LogLevelInfo,
-		nodeId, inputIndex, value)
-
-	//kinda ugly. maybe better save nodes in a map with id as key
-	for _, node := range tree.Nodes {
-		if node.Id == nodeId {
-			node.Inputs[inputIndex].DefaultValue = val
-			return
-		}
+	node, err := tree.FindNodeById(nodeId)
+	if err != nil {
+		core.Log("Node with ID %s could not be found in tree", core.LogLevelError, nodeId)
+		return
 	}
+	node.SetInputDefaultValue(inputIndex, val)
+}
+
+// UpdateUption returns true on success
+func (a *App) UpdateUption(nodeId string, key string, selectedChoice string) bool {
+	node, err := tree.FindNodeById(nodeId)
+	if err != nil {
+		core.Log("Node with ID %s could not be found in tree", core.LogLevelError, nodeId)
+		return false
+	}
+	err = node.SetOption(key, selectedChoice)
+	if err != nil {
+		core.LogErr(err)
+	}
+	return true
 }
 
 func (a *App) GetTestTree() core.SerializableTree {

@@ -1,20 +1,13 @@
-package InteractionLayer
+package core
 
 import (
-	"context"
 	"fmt"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-type App struct {
-	ctx context.Context
-}
-
 type InteractionLayerExecute struct {
 	printedStrings []string
 }
-
-var Ctx context.Context
 
 func (l *InteractionLayerExecute) Print(text string) {
 	l.printedStrings = append(l.printedStrings, text)

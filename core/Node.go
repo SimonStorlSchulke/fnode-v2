@@ -2,17 +2,16 @@ package core
 
 import (
 	"fmt"
-	"fnode2/core/InteractionLayer"
 	"github.com/beevik/guid"
 	"slices"
 )
 
-type ExecutiveFunction func(interactionLayer InteractionLayer.NodeInteractionLayer, inputs []any, Options map[string]*NodeOption)
+type ExecutiveFunction func(interactionLayer NodeInteractionLayer, inputs []any, Options map[string]*NodeOption)
 
 type NodeOption struct {
 	Choices        []string
 	SelectedOption string
-	Callback       func(node *Node)
+	Callback       func(node *Node, selectedChoice string)
 }
 
 type NodeMeta struct {
@@ -84,6 +83,10 @@ func (node *Node) removeRepeatableInputs(difference int) {
 
 func (node *Node) SetInputDefaultValue(index int, value any) {
 	node.Inputs[index].DefaultValue = value
+	Log(
+		"Updated default_input of %s input '%v' to '%v'",
+		LogLevelInfo,
+		node.Id, node.Inputs[index].Name, value)
 }
 
 func (node *Node) AddOption(key string, choices []string) {
@@ -96,29 +99,28 @@ func (node *Node) AddOption(key string, choices []string) {
 }
 
 // SetOptionCallback is triggered when an Option with the given key is changed
-func (node *Node) SetOptionCallback(key string, callback func(node *Node)) {
-	node.Options[key].Callback = func(node *Node) {
+func (node *Node) SetOptionCallback(key string, callback func(node *Node, selectedChoice string)) {
+	node.Options[key].Callback = func(node *Node, selectedChoice string) {
 		Log("Set Option of %s %s to %s", LogLevelInfo, node.Id, key, node.Options[key].SelectedOption)
 		if callback != nil {
-			callback(node)
+			callback(node, selectedChoice)
 		}
 	}
 }
 
-func (node *Node) SetOption(key string, choice string) {
+func (node *Node) SetOption(key string, choice string) error {
 	if node.Options[key] == nil {
-		fmt.Printf("\n%s is not a valid option key", key)
-		return
+		return fmt.Errorf("\n%s is not a valid option key", key)
 	}
 
 	idx := slices.IndexFunc(node.Options[key].Choices, func(choice string) bool { return choice == choice })
 	if idx == -1 {
-		Log("%s is not a valid choice for option with key %s", LogLevelError, choice, key)
-		return
+		return fmt.Errorf("%s is not a valid choice for option with key %s", choice, key)
 	}
 
 	node.Options[key].SelectedOption = choice
-	node.Options[key].Callback(node)
+	node.Options[key].Callback(node, choice)
+	return nil
 }
 
 func (node *Node) findLinksOfOutput(outputId int) []*NodeLink {

@@ -1,4 +1,4 @@
-package InteractionLayer
+package core
 
 // NodeInteractionLayer is the layer used while parsing the nodetree for actually
 // doing things like printing to the console, writing, renaming or deleting files

@@ -10,7 +10,7 @@ import (
 func TestFNodeTestReplace(t *testing.T) {
 	tree := core.NodeTree{}
 
-	testSubject, _ := nodes.Create("Text Replace")
+	testSubject, _ := nodes.Create("TextReplace")
 
 	tree.AddNode(testSubject)
 

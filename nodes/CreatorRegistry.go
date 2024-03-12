@@ -10,12 +10,13 @@ import (
 type NodeCreator func() *core.Node
 
 var nodeCreatorRegistry = map[string]func() *core.Node{
-	"Output.Log":        newLogNode,
-	"Math.Value":        newValueNode,
-	"Math.Math":         newMathNode,
-	"Math.Random Value": newRandomValueNode,
-	"Text.Text":         newTextNode,
-	"Text.Text_Replace": newTextReplaceNode,
+	"Output.Log":       newLogNode,
+	"Math.Value":       newValueNode,
+	"Math.Math":        newMathNode,
+	"Math.RandomValue": newRandomValueNode,
+	"Text.Text":        newTextNode,
+	"Text.TextReplace": newTextReplaceNode,
+	"Control.If":       newIfNode,
 }
 
 func Create(nodeType string) (*core.Node, error) {

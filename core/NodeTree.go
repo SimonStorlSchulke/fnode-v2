@@ -2,7 +2,7 @@ package core
 
 import (
 	"fmt"
-	"fnode2/core/InteractionLayer"
+	"slices"
 )
 
 type NodeTree struct {
@@ -36,7 +36,7 @@ func (tree *NodeTree) FindNodeById(id string) (*Node, error) {
 	return foundNode, nil
 }
 
-func (tree *NodeTree) Parse(layer InteractionLayer.NodeInteractionLayer) {
+func (tree *NodeTree) Parse(layer NodeInteractionLayer) {
 
 	Log("Parsing NodeTree", LogLevelInfo)
 
@@ -64,12 +64,34 @@ func (tree *NodeTree) RemoveNode(node *Node) {
 	delete(tree.Nodes, node.Id)
 }
 
-func (tree *NodeTree) AddLink(link *NodeLink) {
-	if link.FromNode == link.ToNode {
-		fmt.Printf("\ncannot connect sockets of the same Node %s", link.FromNode)
+func (tree *NodeTree) AddLink(newLink *NodeLink) {
+	if newLink.FromNode == newLink.ToNode {
+		Log("\ncannot connect sockets of the same Node %s", LogLevelError, newLink.FromNode)
+		return
 	}
 
-	tree.Links = append(tree.Links, link)
+	if slices.ContainsFunc(tree.Links, func(link *NodeLink) bool {
+		return link.Equals(newLink)
+	}) {
+		Log("Link already exists:", LogLevelInfo, newLink)
+		return
+	}
+
+	Log("Creating Link:", LogLevelInfo, newLink)
+
+	//If a link already exists for the requested input, find and remove it
+	tree.Links = slices.DeleteFunc(tree.Links, func(link *NodeLink) bool {
+		return link.ToNode == newLink.ToNode && link.ToInput == newLink.ToInput
+	})
+
+	tree.Links = append(tree.Links, newLink)
+}
+
+func (tree *NodeTree) RemoveLink(toRemove *NodeLink) {
+	Log("Removing Link", LogLevelInfo, toRemove)
+	tree.Links = slices.DeleteFunc(tree.Links, func(link *NodeLink) bool {
+		return link.Equals(toRemove)
+	})
 }
 
 func (tree *NodeTree) Link(fromNode string, fromOutput int, toNode string, toInput int) {
