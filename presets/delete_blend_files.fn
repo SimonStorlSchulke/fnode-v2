@@ -1,0 +1,149 @@
+
+[[Links]]
+  FromNode = "FileFromList_130e3af0-0736-4627-82ec-3857c63cb7e8"
+  FromOutput = 0
+  ToInput = 0
+  ToNode = "FilterFiles_56c1e0a8-0dc5-45ff-97a7-921e6f08f88e"
+
+[[Links]]
+  FromNode = "FilterFiles_56c1e0a8-0dc5-45ff-97a7-921e6f08f88e"
+  FromOutput = 0
+  ToInput = 0
+  ToNode = "DeleteFile_03584add-4af0-465d-a799-ca7cb11c5dd3"
+
+[[Links]]
+  FromNode = "FileFromList_130e3af0-0736-4627-82ec-3857c63cb7e8"
+  FromOutput = 0
+  ToInput = 0
+  ToNode = "FileInfo_f975c306-a633-4a1f-bea0-bae95c5ff693"
+
+[[Links]]
+  FromNode = "FileInfo_f975c306-a633-4a1f-bea0-bae95c5ff693"
+  FromOutput = 1
+  ToInput = 0
+  ToNode = "TextContains_2674fad0-115c-41af-9e5c-b48130acfe04"
+
+[[Links]]
+  FromNode = "TextContains_2674fad0-115c-41af-9e5c-b48130acfe04"
+  FromOutput = 0
+  ToInput = 1
+  ToNode = "FilterFiles_56c1e0a8-0dc5-45ff-97a7-921e6f08f88e"
+
+[[Nodes]]
+  Id = "FilterFiles_56c1e0a8-0dc5-45ff-97a7-921e6f08f88e"
+  Type = "FilterFiles"
+
+  [[Nodes.Inputs]]
+    Name = "File"
+    Type = 4
+
+  [[Nodes.Inputs]]
+    DefaultValue = true
+    Name = "Matched"
+    Type = 3
+
+  [Nodes.Meta]
+    Category = "File"
+    PosX = 717
+    PosY = 165
+
+  [Nodes.Options]
+
+  [[Nodes.Outputs]]
+    Name = "Filtered Files"
+    Type = 4
+
+[[Nodes]]
+  Id = "DeleteFile_03584add-4af0-465d-a799-ca7cb11c5dd3"
+  Type = "DeleteFile"
+
+  [[Nodes.Inputs]]
+    Name = "File"
+    Type = 4
+
+  [Nodes.Meta]
+    Category = "File"
+    PosX = 942
+    PosY = 191
+
+  [Nodes.Options]
+
+  [[Nodes.Outputs]]
+    Name = "Success"
+    Type = 3
+
+[[Nodes]]
+  Id = "FileFromList_130e3af0-0736-4627-82ec-3857c63cb7e8"
+  Type = "FileFromList"
+
+  [Nodes.Meta]
+    Category = "File"
+    PosX = 29
+    PosY = 114
+
+  [Nodes.Options]
+
+  [[Nodes.Outputs]]
+    Name = "File"
+    Type = 4
+
+[[Nodes]]
+  Id = "TextContains_2674fad0-115c-41af-9e5c-b48130acfe04"
+  Type = "TextContains"
+
+  [[Nodes.Inputs]]
+    DefaultValue = ""
+    Name = "Text"
+    Type = 2
+
+  [[Nodes.Inputs]]
+    DefaultValue = "blend"
+    Name = "Contained"
+    Type = 2
+
+  [[Nodes.Inputs]]
+    DefaultValue = true
+    Name = "Case Sensitive"
+    Type = 3
+
+  [Nodes.Meta]
+    Category = "Text"
+    PosX = 448
+    PosY = 281
+
+  [Nodes.Options]
+
+  [[Nodes.Outputs]]
+    Name = "Contains"
+    Type = 3
+
+[[Nodes]]
+  Id = "FileInfo_f975c306-a633-4a1f-bea0-bae95c5ff693"
+  Type = "FileInfo"
+
+  [[Nodes.Inputs]]
+    Name = "File"
+    Type = 4
+
+  [Nodes.Meta]
+    Category = "File"
+    PosX = 207
+    PosY = 256
+
+  [Nodes.Options]
+
+  [[Nodes.Outputs]]
+    Name = "Name"
+    Type = 2
+
+  [[Nodes.Outputs]]
+    Name = "Extension"
+    Type = 2
+
+  [[Nodes.Outputs]]
+    Name = "Name with Extension"
+    Type = 2
+
+  [[Nodes.Outputs]]
+    Name = "Base Dir"
+    Type = 2

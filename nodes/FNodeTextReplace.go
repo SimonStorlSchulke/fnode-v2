@@ -7,12 +7,12 @@ import (
 )
 
 var textReplaceOutput = core.NewNodeOutput(core.FTypeString, "Result",
-	func(inputs []any, Options map[string]*core.NodeOption) any {
-		text := inputs[0].(string)
-		oldSegment := inputs[1].(string)
-		newSegment := inputs[2].(string)
+	func(node *core.Node) any {
+		text := node.GetInputString(0)
+		oldSegment := node.GetInputString(1)
+		newSegment := node.GetInputString(2)
 
-		switch Options["Mode"].SelectedOption {
+		switch node.Options["Mode"].SelectedOption {
 		case "String":
 			return strings.ReplaceAll(text, oldSegment, newSegment)
 		case "Regex":

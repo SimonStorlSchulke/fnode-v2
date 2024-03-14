@@ -3,6 +3,7 @@ package controller
 import (
 	"context"
 	"fnode2/core"
+	"os"
 	"strconv"
 )
 
@@ -17,17 +18,18 @@ func NewApp() *App {
 	return &App{}
 }
 
-// Startup is called when the app starts. The context is saved
-// so we can call the runtime methods
-func (a *App) SetContext(ctx context.Context) {
-	appContext = a.ctx
-}
+// Startup is called when the app starts. TLeah Gotti
 
 var tree core.NodeTree = core.NodeTree{}
 
-func (a *App) ParseTree() {
+func (a *App) ParseTree(list *core.FileList) {
 	il := core.InteractionLayerExecute{}
-	tree.Parse(&il)
+	tree.Parse(&il, list)
+}
+
+func (a *App) ParseTreePreview(list *core.FileList) {
+	il := core.InteractionLayerPreview{}
+	tree.Parse(&il, list)
 }
 
 func (a *App) ClearTree() {
@@ -55,6 +57,14 @@ func (a *App) UpdateInputDefaultValue(nodeId string, inputIndex int, value any, 
 		val = int(intVal) // TODO check int overflow
 	case core.FTypeString:
 		val = value.(string)
+	case core.FTypeFile:
+		val = value.(string)
+
+		fileInfo, _ := os.Lstat(value.(string))
+		val = core.FFile{
+			FullPath: value.(string),
+			Info:     fileInfo,
+		}
 	}
 
 	node, err := tree.FindNodeById(nodeId)
@@ -79,40 +89,6 @@ func (a *App) UpdateUption(nodeId string, key string, selectedChoice string) boo
 	return true
 }
 
-func (a *App) GetTestTree() core.SerializableTree {
-	/*vn, _ := nodes.Create("Math.Value")
-	vn.SetInputDefaultValue(0, 4.0)
-
-	math1, _ := nodes.Create("Math.Math")
-	math1.SetOption("Mode", "Add")
-	math1.SetInputDefaultValue(1, 10.0)
-
-	math2, _ := nodes.Create("Math.Math")
-	math2.SetOption("Mode", "Multiply")
-	math2.SetInputDefaultValue(0, 2.0)
-
-	printer, _ := nodes.Create("Output.Print")
-
-	printer.Meta.PosY = 200
-	printer.Meta.PosX = 700
-
-	vn.Meta.PosX = 20
-	vn.Meta.PosY = 200
-
-	math1.Meta.PosX = 250
-	math1.Meta.PosY = 60
-
-	math2.Meta.PosX = 500
-	math2.Meta.PosY = 120
-
-	tree.AddNode(math2)
-	tree.AddNode(math1)
-	tree.AddNode(vn)
-	tree.AddNode(printer)
-
-	tree.Link(vn.Id, 0, math2.Id, 1)
-	tree.Link(math1.Id, 0, math2.Id, 0)
-	tree.Link(math2.Id, 0, printer.Id, 0)*/
-
+func (a *App) GetTree() core.SerializableTree {
 	return tree.ToSerializable()
 }

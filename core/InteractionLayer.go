@@ -5,4 +5,5 @@ package core
 // (or mocking these actions)
 type NodeInteractionLayer interface {
 	Print(text string)
+	RemoveFile(path string) error
 }

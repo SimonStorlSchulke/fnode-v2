@@ -1,22 +1,35 @@
 @use "theme";
 
 :host {
-  button {
-    background: linear-gradient(theme.$neutral-3 6px, theme.$neutral-3 6px);
-    padding-top: 12px;
-
-    &:hover:not(.active) {
-      background: linear-gradient(theme.$accent-4 6px, theme.$neutral-3 6px);
-    }
-
-    &.active {
-      background: linear-gradient(theme.$accent-4 6px, transparent 6px);
+  .hbox {
+    button {
+      background: linear-gradient(theme.$neutral-3 6px, theme.$neutral-3 6px);
+      padding-top: 12px;
+    
+      &:hover:not(.active) {
+        background: linear-gradient(theme.$accent-4 6px, theme.$neutral-3 6px);
+      }
+    
+      &.active {
+        background: linear-gradient(theme.$accent-4 6px, transparent 6px);
+      }
     }
   }
-
-
+  
+  
   .vbox {
     button {
+      background: linear-gradient(90deg, theme.$neutral-3 6px, theme.$neutral-3 6px);
+      padding-left: 12px;
+      border-right: none;
+    
+      &:hover:not(.active) {
+        background: linear-gradient(90deg, theme.$accent-4 6px, theme.$neutral-3 6px);
+      }
+    
+      &.active {
+        background: linear-gradient(90deg, theme.$accent-4 6px, transparent 6px);
+      }
       text-align: left;
     }
   }

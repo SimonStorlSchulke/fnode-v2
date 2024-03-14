@@ -5,6 +5,13 @@ import (
 	"slices"
 )
 
+type TreeRunState struct {
+	CurrentIteration int
+	CurrentFile      FFile
+}
+
+var RunState TreeRunState = TreeRunState{}
+
 type NodeTree struct {
 	Nodes map[string]*Node
 	Links []*NodeLink
@@ -15,6 +22,7 @@ func (tree *NodeTree) AddNode(node *Node) {
 	if tree.Nodes == nil {
 		tree.Nodes = map[string]*Node{}
 	}
+
 	tree.Nodes[node.Id] = node
 }
 
@@ -36,14 +44,28 @@ func (tree *NodeTree) FindNodeById(id string) (*Node, error) {
 	return foundNode, nil
 }
 
-func (tree *NodeTree) Parse(layer NodeInteractionLayer) {
+func (tree *NodeTree) Parse(layer NodeInteractionLayer, fileList *FileList) {
 
 	Log("Parsing NodeTree", LogLevelInfo)
+
+	filesList := fileList.GetFlatList()
 
 	tree.removeOutputCaches()
 	executives := tree.findExecutiveNodes()
 
-	for _, executiveNode := range executives {
+	for i, file := range filesList {
+		RunState.CurrentIteration = i
+		RunState.CurrentFile = file
+
+		tree.parseIteration(executives, layer)
+		tree.removeOutputCaches()
+	}
+
+	RunState = TreeRunState{}
+}
+
+func (tree *NodeTree) parseIteration(executiveNodes []*Node, layer NodeInteractionLayer) {
+	for _, executiveNode := range executiveNodes {
 
 		inputValues := make([]any, len(executiveNode.Inputs))
 
@@ -61,7 +83,15 @@ func (tree *NodeTree) removeOutputCaches() {
 }
 
 func (tree *NodeTree) RemoveNode(node *Node) {
+
 	delete(tree.Nodes, node.Id)
+
+	for i := len(tree.Links) - 1; i >= 0; i-- {
+		connectedToRemovedNode := tree.Links[i].FromNode == node.Id || tree.Links[i].ToNode == node.Id
+		if connectedToRemovedNode {
+			tree.Links = append(tree.Links[:i], tree.Links[i+1:]...)
+		}
+	}
 }
 
 func (tree *NodeTree) AddLink(newLink *NodeLink) {
@@ -77,7 +107,7 @@ func (tree *NodeTree) AddLink(newLink *NodeLink) {
 		return
 	}
 
-	Log("Creating Link:", LogLevelInfo, newLink)
+	Log("Creating Link from %s [%v] tot %s [%v]:", LogLevelInfo, newLink.FromNode, newLink.FromOutput, newLink.ToNode, newLink.ToInput)
 
 	//If a link already exists for the requested input, find and remove it
 	tree.Links = slices.DeleteFunc(tree.Links, func(link *NodeLink) bool {

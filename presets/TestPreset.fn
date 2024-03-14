@@ -1,0 +1,15 @@
+
+[[Nodes]]
+  Id = "FileFromList_1960491a-977f-49cc-bf6b-ba35c9b6251c"
+  Type = "FileFromList"
+
+  [Nodes.Meta]
+    Category = "File"
+    PosX = 100
+    PosY = 100
+
+  [Nodes.Options]
+
+  [[Nodes.Outputs]]
+    Name = "File"
+    Type = 4

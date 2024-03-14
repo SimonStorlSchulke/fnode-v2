@@ -3,8 +3,8 @@ package nodes
 import "fnode2/core"
 
 var textOutput = core.NewNodeOutput(core.FTypeString, "Text",
-	func(inputs []any, _ map[string]*core.NodeOption) any {
-		return inputs[0].(string)
+	func(node *core.Node) any {
+		return node.GetInputString(0)
 	},
 	true)
 

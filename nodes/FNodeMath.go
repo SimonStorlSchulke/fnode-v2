@@ -6,10 +6,10 @@ import (
 )
 
 var mathResultOutput = core.NewNodeOutput(core.FTypeFloat, "Result",
-	func(inputs []any, Options map[string]*core.NodeOption) any {
-		a := inputs[0].(float64)
-		b := inputs[1].(float64)
-		switch Options["Mode"].SelectedOption {
+	func(node *core.Node) any {
+		a := node.GetInputFloat(0)
+		b := node.GetInputFloat(1)
+		switch node.Options["Mode"].SelectedOption {
 		case "Add":
 			return a + b
 		case "Subtract":

@@ -15,4 +15,9 @@
   flex-grow: 1;
   margin: 0;
   text-wrap: wrap;
+  
+  span {
+    display: flex;
+    flex-direction: column;
+  }
 }

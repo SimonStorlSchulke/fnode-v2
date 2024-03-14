@@ -18,20 +18,40 @@ export function GetNodeCategories() {
   return window['go']['controller']['App']['GetNodeCategories']();
 }
 
-export function GetTestTree() {
-  return window['go']['controller']['App']['GetTestTree']();
+export function GetPresetNames() {
+  return window['go']['controller']['App']['GetPresetNames']();
 }
 
-export function ParseTree() {
-  return window['go']['controller']['App']['ParseTree']();
+export function GetTree() {
+  return window['go']['controller']['App']['GetTree']();
+}
+
+export function LoadFile() {
+  return window['go']['controller']['App']['LoadFile']();
+}
+
+export function ParseTree(arg1) {
+  return window['go']['controller']['App']['ParseTree'](arg1);
+}
+
+export function ParseTreePreview(arg1) {
+  return window['go']['controller']['App']['ParseTreePreview'](arg1);
 }
 
 export function RemoveLink(arg1) {
   return window['go']['controller']['App']['RemoveLink'](arg1);
 }
 
-export function SetContext(arg1) {
-  return window['go']['controller']['App']['SetContext'](arg1);
+export function RemoveNode(arg1) {
+  return window['go']['controller']['App']['RemoveNode'](arg1);
+}
+
+export function Save(arg1) {
+  return window['go']['controller']['App']['Save'](arg1);
+}
+
+export function SaveAs() {
+  return window['go']['controller']['App']['SaveAs']();
 }
 
 export function UpdateInputDefaultValue(arg1, arg2, arg3, arg4) {

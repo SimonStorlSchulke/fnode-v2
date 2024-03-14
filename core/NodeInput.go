@@ -1,15 +1,5 @@
 package core
 
-const (
-	FTypeFloat = iota
-	FTypeInt
-	FTypeString
-	FTypeBool
-	FTypeStringList
-	FTypeFloatList
-	FTypeIntList
-)
-
 type NodeInput struct {
 	Name         string
 	Type         int

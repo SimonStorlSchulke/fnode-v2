@@ -5,6 +5,7 @@ import (
 	"fnode2/controller"
 	"fnode2/core"
 	"fnode2/nodes"
+
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
@@ -25,16 +26,17 @@ func main() {
 	app := controller.NewApp()
 
 	err := wails.Run(&options.App{
-		Title:     "fnode2",
-		Width:     1024,
-		Height:    768,
+		Title:  "fnode2",
+		Width:  1600,
+		Height: 900,
+
 		Frameless: true,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
 		BackgroundColour: &options.RGBA{R: 27, G: 27, B: 27, A: 1},
 		OnStartup: func(ctx context.Context) {
-			app.SetContext(ctx)
+			//app.SetContext(ctx)
 			core.Ctx = ctx
 		},
 

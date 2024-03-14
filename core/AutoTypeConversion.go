@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 )
 
@@ -56,6 +57,13 @@ var typeConversions map[int]map[int]func(input any) any = map[int]map[int]func(i
 			}
 			return int(i)
 		},
+		FTypeFile: func(input any) any {
+			fileInfo, _ := os.Lstat(input.(string))
+			return FFile{
+				FullPath: input.(string),
+				Info:     fileInfo,
+			}
+		},
 	},
 	FTypeBool: {
 		FTypeString: func(input any) any {
@@ -75,6 +83,14 @@ var typeConversions map[int]map[int]func(input any) any = map[int]map[int]func(i
 				return 1
 			}
 			return 0
+		},
+	},
+	FTypeFile: {
+		FTypeString: func(input any) any {
+			if input == nil {
+				return ""
+			}
+			return input.(FFile).FullPath
 		},
 	},
 }

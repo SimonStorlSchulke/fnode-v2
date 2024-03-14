@@ -2,8 +2,9 @@ package core
 
 import (
 	"fmt"
-	"github.com/beevik/guid"
 	"slices"
+
+	"github.com/beevik/guid"
 )
 
 type ExecutiveFunction func(interactionLayer NodeInteractionLayer, inputs []any, Options map[string]*NodeOption)
@@ -141,6 +142,26 @@ func (node *Node) findLinkOfInput(inputId int) *NodeLink {
 	return node.Tree.Links[matchingLinkIndex]
 }
 
+func (node *Node) GetInputFloat(inputId int) float64 {
+	return node.GetInputValue(inputId).(float64)
+}
+
+func (node *Node) GetInputInt(inputId int) int64 {
+	return node.GetInputValue(inputId).(int64)
+}
+
+func (node *Node) GetInputString(inputId int) string {
+	return node.GetInputValue(inputId).(string)
+}
+
+func (node *Node) GetInputBool(inputId int) bool {
+	return node.GetInputValue(inputId).(bool)
+}
+
+func (node *Node) GetInputFile(inputId int) FFile {
+	return node.GetInputValue(inputId).(FFile)
+}
+
 func (node *Node) GetInputValue(inputId int) any {
 	inputLink := node.findLinkOfInput(inputId)
 	if inputLink == nil {
@@ -174,7 +195,7 @@ func (node *Node) GetOutputResult(index int) any {
 		inputValues[i] = node.GetInputValue(i)
 	}
 
-	result := node.Outputs[index].GetResult(inputValues, node.Options)
+	result := node.Outputs[index].GetResult(node)
 
 	if node.Outputs[index].CacheEnabled {
 		node.cachedOutputResults[index] = result

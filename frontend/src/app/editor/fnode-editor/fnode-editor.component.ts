@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { GetTestTree, ParseTree, ClearTree } from '../../../../wailsjs/go/controller/App';
+import { GetTree, ParseTree, ClearTree, ParseTreePreview } from '../../../../wailsjs/go/controller/App';
 import { FTree, NodeOption } from '../fnode/fnode';
 import { FNodeComponent } from '../fnode/fnode.component';
 import { NodeLinkComponent } from '../node-link/node-link.component';
@@ -34,7 +34,7 @@ export class FNodeEditorComponent implements OnInit {
   }
 
   async getTree() {
-    this.tree =  await GetTestTree();
+    this.tree =  await GetTree();
     console.log(this.tree)
 
     for (let node of this.tree!.Nodes) {
@@ -50,7 +50,27 @@ export class FNodeEditorComponent implements OnInit {
   }
 
   async parseTree() {
-    await ParseTree();
+    await ParseTree({
+      LooseFiles: [],
+      Directories: [
+        {
+          Path: "/home/simon/Desktop/desktop_bin",
+          Recursive: true
+        }
+      ]
+    });
+  }
+
+  async parseTreePreview() {
+    await ParseTreePreview({
+      LooseFiles: [],
+      Directories: [
+        {
+          Path: "/home/simon/Desktop/desktop_bin",
+          Recursive: true
+        }
+      ]
+    });
   }
 
   async clearTree() {

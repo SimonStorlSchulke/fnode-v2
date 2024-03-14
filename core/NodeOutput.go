@@ -1,6 +1,7 @@
 package core
 
-type NodeOutputFunc func(inputs []any, Options map[string]*NodeOption) any
+type NodeOutputFunc func(node *Node) any
+
 type NodeOutput struct {
 	Type         int
 	Name         string
@@ -22,8 +23,8 @@ func NewNodeOutput(outputType int, name string, operator NodeOutputFunc, cacheEn
 	}
 }
 
-func (output *NodeOutput) GetResult(inputs []any, options map[string]*NodeOption) any {
-	result := output.Operator(inputs, options)
+func (output *NodeOutput) GetResult(node *Node) any {
+	result := output.Operator(node)
 	return result
 }
 

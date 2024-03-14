@@ -5,7 +5,10 @@ import (
 )
 
 func printOutput(interactionLayer core.NodeInteractionLayer, inputs []any, _ map[string]*core.NodeOption) {
-	interactionLayer.Print(inputs[0].(string))
+	text := inputs[0].(string)
+	if len(text) > 0 {
+		interactionLayer.Print(text)
+	}
 }
 
 func newLogNode() *core.Node {

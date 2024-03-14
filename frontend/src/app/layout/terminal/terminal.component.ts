@@ -5,6 +5,7 @@ import { TerminalService } from './terminal.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TabContainerComponent } from '../../ui/tab-container/tab-container.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FeatherModule } from 'angular-feather';
 
 @Component({
   selector: 'app-terminal',
@@ -12,7 +13,8 @@ import { DomSanitizer } from '@angular/platform-browser';
   imports: [
     PanelComponent,
     ReversePipe,
-    TabContainerComponent
+    TabContainerComponent,
+    FeatherModule,
   ],
   templateUrl: './terminal.component.html',
   styleUrl: './terminal.component.scss',
@@ -25,13 +27,13 @@ export class TerminalComponent {
   currentTab = 0;
 
 
-  text: string = ""
+  treeOutput: string = ""
   log: string = ""
 
   constructor() {
     this.terminalSv.outputReceived$.pipe(takeUntilDestroyed()).subscribe(line => {
-      this.text += line;
-      this.text += "\n";
+      this.treeOutput += line;
+      this.treeOutput += "\n";
       this.changeDetectorRef.detectChanges()
     });
 
@@ -46,7 +48,7 @@ export class TerminalComponent {
   }
 
   clearOutput() {
-    this.text = "";
+    this.treeOutput = "";
     this.changeDetectorRef.markForCheck();
   }
 

@@ -7,11 +7,11 @@ import (
 )
 
 var randomValueOutput = core.NewNodeOutput(core.FTypeFloat, "Result",
-	func(inputs []any, _ map[string]*core.NodeOption) any {
-		min := inputs[0].(float64)
-		max := inputs[1].(float64)
+	func(node *core.Node) any {
+		min := node.GetInputFloat(0)
+		max := node.GetInputFloat(1)
 		//TODO bias := inputs[2].(float64)
-		r := rand.New(rand.NewSource(time.Now().Unix()))
+		r := rand.New(rand.NewSource(time.Now().Unix() + int64(core.RunState.CurrentIteration)))
 		random0To1 := r.Float64()
 		return min + random0To1*(max-min)
 	},

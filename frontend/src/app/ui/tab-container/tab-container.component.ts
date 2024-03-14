@@ -8,8 +8,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrl: './tab-container.component.scss',
 })
 export class TabContainerComponent {
-
-  @Input({required: true}) tabs: string[] = [];
+  @Input({ required: true }) tabs: string[] = [];
   @Input() vertical = false;
   @Input() closableTabs = false;
 
@@ -18,7 +17,7 @@ export class TabContainerComponent {
   protected currentTab = 0;
 
   switchTab(index: number) {
-    this.currentTab = index
+    this.currentTab = index;
     this.switched.next(index);
   }
 }

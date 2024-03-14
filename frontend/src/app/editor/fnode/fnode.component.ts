@@ -4,7 +4,8 @@ import {
   UpdateInputDefaultValue,
   AddLink,
   UpdateNodePosition,
-  UpdateUption
+  UpdateUption,
+  RemoveNode
 } from '../../../../wailsjs/go/controller/App';
 import { FTypeColors } from './ftype-colors';
 import { DraggableDirective, DragAndDropModule, DragMoveEvent, DragEndEvent } from 'angular-draggable-droppable';
@@ -27,6 +28,7 @@ export class FNodeComponent implements OnInit{
   @HostBinding("style.top") posY = "100px";
   @Output() redrawLinks = new EventEmitter<string>();
   @Output() changedNode = new EventEmitter<void>();
+  @Output() removedNode = new EventEmitter<void>();
 
   @ViewChild("header") headerElement!: ElementRef;
   @ViewChild("content") contentElement!: ElementRef;
@@ -105,5 +107,10 @@ export class FNodeComponent implements OnInit{
     });
     this.changedNode.next();
     this.redrawLinks.next(this.fnode.Id);
+  }
+
+  async removeNode() {
+    await RemoveNode(this.fnode.Id);
+    this.removedNode.next();
   }
 }

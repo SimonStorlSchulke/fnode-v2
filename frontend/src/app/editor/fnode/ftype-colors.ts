@@ -1,9 +1,9 @@
 export let FTypeColors: string[] = [
-  "#45bcda",
-  "#32a865",
-  "#db784a",
-  "#8245bf",
-  "#fff",
+  "#3282c4", //Int
+  "#4ecbeb", //float
+  "#db784a", //string
+  "#8245bf", //bool
+  "#32a865", //file
   "#fff",
   "#fff",
 ]

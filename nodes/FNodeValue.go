@@ -3,8 +3,8 @@ package nodes
 import "fnode2/core"
 
 var valueOutput = core.NewNodeOutput(core.FTypeFloat, "value",
-	func(inputs []any, _ map[string]*core.NodeOption) any {
-		return inputs[0].(float64)
+	func(node *core.Node) any {
+		return node.GetInputFloat(0)
 	},
 	true)
 

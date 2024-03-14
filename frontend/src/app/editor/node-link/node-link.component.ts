@@ -54,7 +54,6 @@ export class NodeLinkComponent implements AfterViewInit, OnInit {
     this.updatePath();
   }
 
-
   findSockets() {
     this.fromOutputElement = document.querySelector(
       `#output_${this.nodeLink.FromNode}__${this.nodeLink.FromOutput}`
@@ -67,6 +66,14 @@ export class NodeLinkComponent implements AfterViewInit, OnInit {
     this.fromColor = this.fromOutputElement?.style.backgroundColor ?? "#f00";
 
     this.toColor = this.toInputElement?.style.backgroundColor ?? "#f00";
+
+    if (this.fromColor != this.toColor) {
+      this.addImplicitConversionNote();
+    }
+  }
+
+  addImplicitConversionNote() {
+
   }
 
   updatePath() {
@@ -95,11 +102,12 @@ export class NodeLinkComponent implements AfterViewInit, OnInit {
     this.pathElement?.nativeElement.setAttribute("d", `M ${p1[0]} ${p1[1]} C ${p1b[0]} ${p1b[1]} ${p2b[0]} ${p2b[1]} ${p2[0]} ${p2[1]}`);
 
     // quite hacky, but whe have the element here anyway so it's cheap
-    this.toInputElement!.parentElement!.querySelector("input")!.style.visibility = "hidden"
+    this.toInputElement!.parentElement!.querySelector("input")!.style.display = "none";
   }
 
   async remove() {
     await RemoveLink(this.nodeLink);
+    this.toInputElement!.parentElement!.querySelector("input")!.style.display = "block"
     this.removed$.next(this.nodeLink);
   }
 }

@@ -5,7 +5,7 @@
 </div>
 
 <div #content class="fnode-content vbox gap-1" [class.dragged]="dragging" [style.left]="dragOffsetX + 'px'" [style.top]="dragOffsetY + 'px'">
-  <i-feather class="close hbox center-items" name="X"/>
+  <i-feather (click)="removeNode()" class="close hbox center-items" name="X"/>
 
   @for (output of fnode.Outputs; track output.Name) {
     <div class="foutput hbox center-items gap-3 end">

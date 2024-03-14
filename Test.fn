@@ -1,0 +1,20 @@
+
+[[Nodes]]
+  Id = "Value_6c38cfa0-5af4-4fed-b7e1-60554d1bff64"
+  Type = "Value"
+
+  [[Nodes.Inputs]]
+    DefaultValue = 1.0
+    Name = "value"
+    Type = 0
+
+  [Nodes.Meta]
+    Category = "Math"
+    PosX = 100
+    PosY = 100
+
+  [Nodes.Options]
+
+  [[Nodes.Outputs]]
+    Name = "value"
+    Type = 0

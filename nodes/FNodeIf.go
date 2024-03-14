@@ -5,11 +5,11 @@ import (
 )
 
 var ifOutput = core.NewNodeOutput(core.FTypeFloat, "Result",
-	func(inputs []any, _ map[string]*core.NodeOption) any {
-		if inputs[0].(bool) {
-			return inputs[2]
+	func(node *core.Node) any {
+		if node.GetInputValue(0).(bool) {
+			return node.GetInputValue(2)
 		} else {
-			return inputs[1]
+			return node.GetInputValue(1)
 		}
 	},
 	true)
@@ -20,8 +20,8 @@ func newIfNode() *core.Node {
 		"Control",
 		[]core.NodeInput{
 			core.NewNodeInput(core.FTypeBool, "Condition", false),
-			core.NewNodeInput(core.FTypeFloat, "If false", 0.0),
-			core.NewNodeInput(core.FTypeFloat, "If true", 1.0),
+			core.NewNodeInput(core.FTypeFloat, "If False", 0.0),
+			core.NewNodeInput(core.FTypeFloat, "If True", 1.0),
 		},
 		[]*core.NodeOutput{ifOutput},
 	)
