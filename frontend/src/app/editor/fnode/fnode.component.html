@@ -4,7 +4,11 @@
   </span>
 </div>
 
-<div #content class="fnode-content vbox gap-1" [class.dragged]="dragging" [style.left]="dragOffsetX + 'px'" [style.top]="dragOffsetY + 'px'">
+<div #content class="fnode-content vbox gap-1"
+[class.active]="nodeAdderSv.activeNodeId == fnode.Id" 
+[class.selected]="nodeAdderSv.selectedNodeIds.includes(fnode.Id)" 
+[class.dragged]="dragging" [style.left]="dragOffsetX + 'px'"
+[style.top]="dragOffsetY + 'px'">
   <i-feather (click)="removeNode()" class="close hbox center-items" name="X"/>
 
   @for (output of fnode.Outputs; track output.Name) {

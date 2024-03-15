@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { GetTree, ParseTree, ClearTree, ParseTreePreview } from '../../../../wailsjs/go/controller/App';
 import { FTree, NodeOption } from '../fnode/fnode';
 import { FNodeComponent } from '../fnode/fnode.component';
@@ -21,10 +21,10 @@ export class FNodeEditorComponent implements OnInit {
   tree?: FTree;
   nodeChanged$ = new Subject<string>()
 
-  nodAdderSv = inject(NodeAdderService);
+  nodeAdderSv = inject(NodeAdderService);
 
   constructor() {
-    this.nodAdderSv.nodeAdded$.subscribe(() => {
+    this.nodeAdderSv.nodeAdded$.subscribe(() => {
       this.getTree();
     });
   }
@@ -60,6 +60,14 @@ export class FNodeEditorComponent implements OnInit {
   async clearTree() {
     await ClearTree();
     await this.getTree();
+  }
+
+  @HostListener("click", ['$event'])
+  selectNode(event: MouseEvent) {
+    console.log("event.target", event)
+    this.nodeAdderSv.activeNodeId = "";
+    this.nodeAdderSv.selectedNodeIds = [];
+    console.log("2")
   }
 
   emitNodePositionChangedEvent(nodeId: string) {

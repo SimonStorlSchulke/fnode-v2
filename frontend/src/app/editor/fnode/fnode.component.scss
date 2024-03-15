@@ -12,10 +12,6 @@
   min-width: 150px;
   box-sizing: border-box;
 
-  &.selected {
-    outline: 2px solid theme.$accent-1;
-  }
-
   &:hover .close {
     visibility: visible;
   }
@@ -79,6 +75,15 @@
   background-color: theme.$neutral-2;
   box-shadow: 1px 2px 8px #0008;
   transition: box-shadow 0.33s;
+
+  &.selected {
+    outline: 2px solid theme.$selected-1;
+  }
+  &.active {
+    outline: 2px solid theme.$selected-2;
+  }
+
+
 
   &.dragged {
     position: relative;

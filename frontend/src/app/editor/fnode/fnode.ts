@@ -1,29 +1,29 @@
 export interface FTree {
-  Nodes: FNode[]
-  Links: NodeLink[]
+  Nodes: FNode[];
+  Links: NodeLink[];
 }
 
 export interface FNode {
-  Type: string
-  Id: string
-  Inputs: FInput[]
-  Outputs: FOutput[],
-  Options: Map<string, NodeOption>,
+  Type: string;
+  Id: string;
+  Inputs: FInput[];
+  Outputs: FOutput[];
+  Options: Map<string, NodeOption>;
   Meta: {
-    PosX: number,
-    PosY: number,
-    Category: string,
-  }
+    PosX: number;
+    PosY: number;
+    Category: string;
+  };
 }
 
 export interface NodeOption {
-  Choices:        string[],
-  SelectedOption: string,
+  Choices: string[];
+  SelectedOption: string;
 }
 
 export interface FOutput {
-  Name: string,
-  Type: number,
+  Name: string;
+  Type: number;
 }
 
 export const FType = {
@@ -37,35 +37,36 @@ export const FType = {
 };
 
 export interface FInput {
-  Name: string,
-  Type: number,
-  DefaultValue: any,
+  Name: string;
+  Type: number;
+  DefaultValue: any;
 }
 
 export interface FOption {
-  Choices:        string[]
-  SelectedOption: string}
+  Choices: string[];
+  SelectedOption: string;
+}
 
 export interface Mode {
-  SelectedOption: string
+  SelectedOption: string;
 }
 
 export interface NodeLink {
-  FromNode: string
-  FromOutput: number
-  ToNode: string
-  ToInput: number
+  FromNode: string;
+  FromOutput: number;
+  ToNode: string;
+  ToInput: number;
 }
 
 export interface NodeCategory {
-  Name:      string
-  NodeTypes: string[]
+  Name: string;
+  NodeTypes: string[];
 }
 
 export interface FileList {
   LooseFiles: string[];
   Directories: {
-      Path: string;
-      Recursive: boolean;
+    Path: string;
+    Recursive: boolean;
   }[];
 }

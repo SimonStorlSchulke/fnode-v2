@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NodeCategory } from '../../editor/fnode/fnode';
-import { AddNode, GetNodeCategories } from '../../../../wailsjs/go/controller/App';
+import { AddConnectedNode, AddNode, GetNodeCategories } from '../../../../wailsjs/go/controller/App';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -9,8 +9,10 @@ import { Subject } from 'rxjs';
 export class NodeAdderService {
 
   NodeCategories: NodeCategory[] = [];
-
   nodeAdded$ = new Subject<void>();
+
+  selectedNodeIds: string[] = [];
+  activeNodeId: string = "";
 
   ngOnInit() {
     GetNodeCategories().then((data: NodeCategory[]) => {
@@ -19,7 +21,17 @@ export class NodeAdderService {
   }
   
   async addNode(ofCategory: string, ofType: string, posX: number = 100, posY: number = 100) {
-    await AddNode(`${ofCategory}.${ofType}`, posX, posY);
+
+    let addedNodeId = "";
+
+    if (this.activeNodeId != "") {
+      addedNodeId = await AddConnectedNode(`${ofCategory}.${ofType}`, this.activeNodeId);
+    } else {
+      addedNodeId = await AddNode(`${ofCategory}.${ofType}`, posX, posY);
+    }
+
+    this.activeNodeId = addedNodeId;
+
     this.nodeAdded$.next();
   }
 
