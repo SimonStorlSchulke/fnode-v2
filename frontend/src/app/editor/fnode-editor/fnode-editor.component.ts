@@ -50,27 +50,11 @@ export class FNodeEditorComponent implements OnInit {
   }
 
   async parseTree() {
-    await ParseTree({
-      LooseFiles: [],
-      Directories: [
-        {
-          Path: "/home/simon/Desktop/desktop_bin",
-          Recursive: true
-        }
-      ]
-    });
+    await ParseTree();
   }
 
   async parseTreePreview() {
-    await ParseTreePreview({
-      LooseFiles: [],
-      Directories: [
-        {
-          Path: "/home/simon/Desktop/desktop_bin",
-          Recursive: true
-        }
-      ]
-    });
+    await ParseTreePreview();
   }
 
   async clearTree() {

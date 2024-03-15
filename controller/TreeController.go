@@ -22,14 +22,14 @@ func NewApp() *App {
 
 var tree core.NodeTree = core.NodeTree{}
 
-func (a *App) ParseTree(list *core.FileList) {
+func (a *App) ParseTree() {
 	il := core.InteractionLayerExecute{}
-	tree.Parse(&il, list)
+	tree.Parse(&il, fileList)
 }
 
-func (a *App) ParseTreePreview(list *core.FileList) {
+func (a *App) ParseTreePreview() {
 	il := core.InteractionLayerPreview{}
-	tree.Parse(&il, list)
+	tree.Parse(&il, fileList)
 }
 
 func (a *App) ClearTree() {

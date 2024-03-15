@@ -61,3 +61,11 @@ export interface NodeCategory {
   Name:      string
   NodeTypes: string[]
 }
+
+export interface FileList {
+  LooseFiles: string[];
+  Directories: {
+      Path: string;
+      Recursive: boolean;
+  }[];
+}

@@ -1,17 +1,26 @@
-<app-header/>
+<app-header />
 
 <div class="hbox grow-1">
-  <sui-panel class="sidebar-left" [direction]="'vbox'" label="Add Nodes" [noPadding]="true">
+  <sui-panel
+    class="sidebar-left"
+    [direction]="'vbox'"
+    label="File List"
+    [noPadding]="true"
+  >
+  <app-file-list></app-file-list>
   </sui-panel>
 
   <div class="vbox grow-1">
-    <app-fnode-editor/>
-    <app-terminal/>
+    <app-fnode-editor />
+    <app-terminal />
   </div>
 
-  <sui-panel class="sidebar-right" [direction]="'vbox'" label="Add Nodes" [noPadding]="true">
-    <app-node-adder/>
+  <sui-panel
+    class="sidebar-right"
+    [direction]="'vbox'"
+    label="Add Nodes"
+    [noPadding]="true"
+  >
+    <app-node-adder />
   </sui-panel>
-
 </div>
-
