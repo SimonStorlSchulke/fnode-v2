@@ -10,11 +10,12 @@ import { FNodeEditorComponent } from './editor/fnode-editor/fnode-editor.compone
 import { NodeAdderComponent } from './layout/node-adder/node-adder.component';
 import { TerminalComponent } from './layout/terminal/terminal.component';
 import { FileListComponent } from './layout/file-list/file-list.component';
+import { NodeTreeComponent } from './node-tree/node-tree.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MenuBarComponent, HeaderComponent, PanelComponent, DragAndDropModule, NgStyle, FNodeComponent, FNodeEditorComponent, NodeAdderComponent, TerminalComponent, FileListComponent],
+  imports: [RouterOutlet, NodeTreeComponent, MenuBarComponent, HeaderComponent, PanelComponent, DragAndDropModule, NgStyle, FNodeComponent, FNodeEditorComponent, NodeAdderComponent, TerminalComponent, FileListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
