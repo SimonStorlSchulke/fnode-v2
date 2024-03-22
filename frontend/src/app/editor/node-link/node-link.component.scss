@@ -1,6 +1,6 @@
 .connection .main-path {
   fill: none;
-  stroke-width: 3.5px;
+  stroke-width: 2.5px;
   pointer-events: all;
 
   &:hover {
@@ -16,8 +16,8 @@
 
 svg {
   overflow: visible !important;
-  position: absolute;
-  top: -8px;
-  left: -240px; //TODO: his is ugly af - find better solution...
+  position: fixed;
+  top: 0px;
+  left: 0px; //TODO: his is ugly af - find better solution...
   pointer-events: none;
 }

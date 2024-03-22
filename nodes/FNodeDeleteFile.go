@@ -11,7 +11,7 @@ func deleteFileExecutor(interactionLayer core.NodeInteractionLayer, inputs []any
 	filePath := inputs[0].(core.FFile).FullPath
 	err := interactionLayer.RemoveFile(filePath)
 	if err != nil {
-		core.LogErr(err)
+		core.LogRawError(err)
 	}
 }
 

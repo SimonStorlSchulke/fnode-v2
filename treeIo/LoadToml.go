@@ -3,8 +3,9 @@ package treeIo
 import (
 	"fnode2/core"
 	"fnode2/nodes"
-	"github.com/pelletier/go-toml"
 	"os"
+
+	"github.com/pelletier/go-toml"
 )
 
 func deserialize(data []byte) (*core.NodeTree, error) {
@@ -19,7 +20,7 @@ func deserialize(data []byte) (*core.NodeTree, error) {
 	for _, serializedNode := range serializableTree.Nodes {
 		node, err := deserializeNode(serializedNode)
 		if err != nil {
-			core.Log(err.Error(), core.LogLevelError)
+			core.LogRawError(err)
 			return nil, err
 		}
 		tree.AddNode(node)

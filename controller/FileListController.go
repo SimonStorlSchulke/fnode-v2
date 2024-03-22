@@ -17,7 +17,7 @@ var fileList *core.FileList = &core.FileList{
 func (a *App) AddLooseFilesFromDialog() {
 	filePaths, err := runtime.OpenMultipleFilesDialog(core.Ctx, runtime.OpenDialogOptions{})
 	if err != nil {
-		core.LogErr(err)
+		core.LogRawError(err)
 		return
 	}
 
@@ -27,7 +27,7 @@ func (a *App) AddLooseFilesFromDialog() {
 func (a *App) AddDirectoriesFromDialog() {
 	dir, err := runtime.OpenDirectoryDialog(core.Ctx, runtime.OpenDialogOptions{})
 	if err != nil {
-		core.LogErr(err)
+		core.LogRawError(err)
 		return
 	}
 

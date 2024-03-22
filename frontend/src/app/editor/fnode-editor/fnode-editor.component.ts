@@ -1,30 +1,32 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild, inject } from '@angular/core';
 import { GetTree, ParseTree, ClearTree, ParseTreePreview } from '../../../../wailsjs/go/controller/App';
 import { FTree, NodeOption } from '../fnode/fnode';
 import { FNodeComponent } from '../fnode/fnode.component';
 import { NodeLinkComponent } from '../node-link/node-link.component';
-import { Subject, tap } from 'rxjs';
-import { NodeAdderService } from '../../layout/node-adder/node-adder.service';
+import { Subject } from 'rxjs';
+import { FNodeService } from '../fnode.service';
 
 @Component({
   selector: 'app-fnode-editor',
   standalone: true,
   imports: [
     FNodeComponent,
-    NodeLinkComponent
+    NodeLinkComponent,
   ],
   templateUrl: './fnode-editor.component.html',
-  styleUrl: './fnode-editor.component.scss'
+  styleUrl: './fnode-editor.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FNodeEditorComponent implements OnInit {
+  protected tree?: FTree;
+  protected nodeChanged$ = new Subject<string>();
+  @ViewChild("editor") grid!: ElementRef<HTMLElement>;
 
-  tree?: FTree;
-  nodeChanged$ = new Subject<string>()
-
-  nodeAdderSv = inject(NodeAdderService);
+  protected fNodeSv = inject(FNodeService);
+  changeDetectorRef = inject(ChangeDetectorRef);
 
   constructor() {
-    this.nodeAdderSv.nodeAdded$.subscribe(() => {
+    this.fNodeSv.nodeAdded$.subscribe(() => {
       this.getTree();
     });
   }
@@ -33,9 +35,8 @@ export class FNodeEditorComponent implements OnInit {
     await this.getTree();
   }
 
-  async getTree() {
+  protected async getTree() {
     this.tree =  await GetTree();
-    console.log(this.tree)
 
     for (let node of this.tree!.Nodes) {
       const newOptions = new Map<string, NodeOption>();
@@ -44,16 +45,27 @@ export class FNodeEditorComponent implements OnInit {
       }
 
       node.Options = newOptions;
-      console.log("node.Options")
-      console.log(node.Options)
     }
+    this.changeDetectorRef.markForCheck();
   }
 
-  async parseTree() {
+  protected async onRemovedNode(nodeId: string) {
+    await this.getTree();
+    this.nodeChanged$.next(nodeId);
+  }
+
+  currentZoom = 1;
+  zoom(step: number) {
+    this.currentZoom += step;
+    this.grid.nativeElement.style.transform = `scale(${this.currentZoom})`;
+    this.nodeChanged$.next("all");
+    }
+
+  protected async parseTree() {
     await ParseTree();
   }
 
-  async parseTreePreview() {
+  protected async parseTreePreview() {
     await ParseTreePreview();
   }
 
@@ -63,14 +75,16 @@ export class FNodeEditorComponent implements OnInit {
   }
 
   @HostListener("click", ['$event'])
-  selectNode(event: MouseEvent) {
-    console.log("event.target", event)
-    this.nodeAdderSv.activeNodeId = "";
-    this.nodeAdderSv.selectedNodeIds = [];
-    console.log("2")
+  protected deselectNodes(event: MouseEvent) {
+    const clickedGrid = (event.target as HTMLElement).children[0]?.classList.contains("grid"); //hacky...
+    if(clickedGrid) {
+      this.fNodeSv.activeNodeId = "";
+      this.fNodeSv.selectedNodeIds = [];
+      this.changeDetectorRef.markForCheck();
+    }
   }
 
-  emitNodePositionChangedEvent(nodeId: string) {
+  protected emitNodePositionChangedEvent(nodeId: string) {
     this.nodeChanged$.next(nodeId);
   }
 }

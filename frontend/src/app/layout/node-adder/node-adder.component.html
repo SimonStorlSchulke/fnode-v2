@@ -1,10 +1,10 @@
 <sui-tab-container (switched)="currentTab = $event" [tabs]="getCategoryNames()" [vertical]="true"/>
 <div class="vbox grow-1 p-2">
-  @for (category of nodeAdderSv.NodeCategories; track category.Name) {
+  @for (category of fNodeSv.NodeCategories; track category.Name) {
 
     @if($index == currentTab) {
       @for (nodeType of category.NodeTypes; track nodeType) {
-        <button (click)="nodeAdderSv.addNode(category.Name, nodeType)">{{ nodeType }}</button>
+        <button (click)="fNodeSv.addNode(category.Name, nodeType)">{{ nodeType }}</button>
       }
     }
 

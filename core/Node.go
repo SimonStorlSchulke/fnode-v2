@@ -7,29 +7,6 @@ import (
 	"github.com/beevik/guid"
 )
 
-type ExecutiveFunction func(interactionLayer NodeInteractionLayer, inputs []any, Options map[string]*NodeOption)
-
-type NodeOption struct {
-	Choices        []string
-	SelectedOption string
-	Callback       func(node *Node, selectedChoice string)
-}
-
-type NodeMeta struct {
-	PosX     int
-	PosY     int
-	Category string
-}
-
-type SerializableNodeOption struct {
-	Choices        []string
-	SelectedOption string
-}
-
-func (nodeOption *NodeOption) ToSerializable() SerializableNodeOption {
-	return SerializableNodeOption{Choices: nodeOption.Choices, SelectedOption: nodeOption.SelectedOption}
-}
-
 type Node struct {
 	Type   string
 	Id     string
@@ -47,13 +24,36 @@ type Node struct {
 	cachedOutputResults    []any
 }
 
+type ExecutiveFunction func(interactionLayer NodeInteractionLayer, inputs []any, Options map[string]*NodeOption)
+
+type NodeMeta struct {
+	PosX     int
+	PosY     int
+	Category string
+}
+
+type NodeOption struct {
+	Choices        []string
+	SelectedOption string
+	Callback       func(node *Node, selectedChoice string)
+}
+
+type SerializableNodeOption struct {
+	Choices        []string
+	SelectedOption string
+}
+
+func (nodeOption *NodeOption) ToSerializable() SerializableNodeOption {
+	return SerializableNodeOption{Choices: nodeOption.Choices, SelectedOption: nodeOption.SelectedOption}
+}
+
 func (node *Node) AddRepeatableInputGroup(inputs []NodeInput) {
 	node.repeatableInputs = inputs
 }
 
 func (node *Node) SetRepeatableInputsAmount(number int) {
 	if number < 1 {
-		Log("Cannot set amount of repeatableInputGroupSize < 1", LogLevelWarning)
+		LogWarn("Cannot set amount of repeatableInputGroupSize < 1")
 		return
 	}
 
@@ -84,9 +84,8 @@ func (node *Node) removeRepeatableInputs(difference int) {
 
 func (node *Node) SetInputDefaultValue(index int, value any) {
 	node.Inputs[index].DefaultValue = value
-	Log(
+	LogInfo(
 		"Updated default_input of %s input '%v' to '%v'",
-		LogLevelInfo,
 		node.Id, node.Inputs[index].Name, value)
 }
 
@@ -102,7 +101,7 @@ func (node *Node) AddOption(key string, choices []string) {
 // SetOptionCallback is triggered when an Option with the given key is changed
 func (node *Node) SetOptionCallback(key string, callback func(node *Node, selectedChoice string)) {
 	node.Options[key].Callback = func(node *Node, selectedChoice string) {
-		Log("Set Option of %s %s to %s", LogLevelInfo, node.Id, key, node.Options[key].SelectedOption)
+		LogInfo("Set Option of %s %s to %s", node.Id, key, node.Options[key].SelectedOption)
 		if callback != nil {
 			callback(node, selectedChoice)
 		}
@@ -171,7 +170,7 @@ func (node *Node) GetInputValue(inputId int) any {
 	connectedNode := node.Tree.Nodes[inputLink.FromNode]
 
 	if connectedNode == nil {
-		Log("Node not found in NodeTree", LogLevelPanic)
+		LogPanic("Node not found in NodeTree")
 		return node.Inputs[inputId].DefaultValue
 	}
 

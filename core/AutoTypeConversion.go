@@ -105,9 +105,9 @@ func fallbackValue(ofType int) any {
 		return ""
 	case FTypeBool:
 		return false
-	default:
-		panic("unknown FType in fallbackValue()")
 	}
+	LogPanic("unknown FType in fallbackValue()")
+	return nil
 }
 
 func AutoConvertTypes(fromType int, toType int, value any) any {

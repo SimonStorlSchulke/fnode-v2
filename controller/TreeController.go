@@ -39,7 +39,7 @@ func (a *App) ClearTree() {
 func (a *App) UpdateNodePosition(nodeId string, posX int, posY int) {
 	node, err := tree.FindNodeById(nodeId)
 	if err != nil {
-		core.Log("error updating Node position %v", core.LogLevelError, err)
+		core.LogError("error updating Node position %v", err)
 	}
 	node.Meta.PosX = posX
 	node.Meta.PosY = posY
@@ -69,7 +69,7 @@ func (a *App) UpdateInputDefaultValue(nodeId string, inputIndex int, value any, 
 
 	node, err := tree.FindNodeById(nodeId)
 	if err != nil {
-		core.Log("Node with ID %s could not be found in tree", core.LogLevelError, nodeId)
+		core.LogError("Node with ID %s could not be found in tree", nodeId)
 		return
 	}
 	node.SetInputDefaultValue(inputIndex, val)
@@ -79,12 +79,12 @@ func (a *App) UpdateInputDefaultValue(nodeId string, inputIndex int, value any, 
 func (a *App) UpdateUption(nodeId string, key string, selectedChoice string) bool {
 	node, err := tree.FindNodeById(nodeId)
 	if err != nil {
-		core.Log("Node with ID %s could not be found in tree", core.LogLevelError, nodeId)
+		core.LogError("Node with ID %s could not be found in tree", nodeId)
 		return false
 	}
 	err = node.SetOption(key, selectedChoice)
 	if err != nil {
-		core.LogErr(err)
+		core.LogRawError(err)
 	}
 	return true
 }

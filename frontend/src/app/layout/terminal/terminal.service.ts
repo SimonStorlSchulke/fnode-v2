@@ -22,4 +22,10 @@ export class TerminalService {
       this.logReceived$.next(line);
     });
   }
+
+  log(line: string) {
+    this.logReceived$.next(`<span style="color: #7abfff">${line}</span>`);
+  }
+
+
 }

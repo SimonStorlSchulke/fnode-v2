@@ -24,7 +24,7 @@ import { AddLink, RemoveLink } from '../../../../wailsjs/go/controller/App';
 export class NodeLinkComponent implements AfterViewInit, OnInit {
   @Input({required: true}) editor!: HTMLElement;
   @Input({required: true}) nodeLink!: NodeLink;
-  @Input({required: true}) nodeChanged$!: Subject<string>;
+  @Input({required: true}) requestRedraw$!: Subject<string>;
 
   @Output() removed$ = new EventEmitter<NodeLink>();
 
@@ -42,8 +42,12 @@ export class NodeLinkComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     this.findSockets();
-    this.nodeChanged$.pipe(takeUntilDestroyed(this.destroyRef))
+    this.requestRedraw$.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(nodeId => {
+        if(nodeId == "all") {
+          this.updatePath();
+          return;
+        }
         if(nodeId == this.nodeLink.FromNode || nodeId == this.nodeLink.ToNode) {
           this.updatePath();
         }
@@ -77,15 +81,17 @@ export class NodeLinkComponent implements AfterViewInit, OnInit {
   }
 
   updatePath() {
+    const rectFrom = this.fromOutputElement!.getBoundingClientRect();
+    const rectTo = this.toInputElement!.getBoundingClientRect();
 
     let p1 = [
-      this.fromOutputElement!.getBoundingClientRect().x + 12,
-      this.fromOutputElement!.getBoundingClientRect().y - 24.01, //+0.01 as a workaround for invisible straight paths bug in chrome
+      rectFrom.x + rectFrom.width / 2,
+      rectFrom.y + rectFrom.height / 2 - 0.001, //+0.01 as a workaround for invisible straight paths bug in chrome
     ]
 
     let p2 = [
-      this.toInputElement!.getBoundingClientRect().x,
-      this.toInputElement!.getBoundingClientRect().y - 24,
+      rectTo.x + rectTo.width / 2,
+      rectTo.y + rectTo.height / 2,
     ]
 
     let p1b = [
@@ -96,8 +102,7 @@ export class NodeLinkComponent implements AfterViewInit, OnInit {
     let p2b = [
       (p1[0]! + p2[0]!) / 2,
       p2[1]!,
-    ]
-
+    ];
 
     this.pathElement?.nativeElement.setAttribute("d", `M ${p1[0]} ${p1[1]} C ${p1b[0]} ${p1b[1]} ${p2b[0]} ${p2b[1]} ${p2[0]} ${p2[1]}`);
 

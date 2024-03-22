@@ -1,11 +1,15 @@
 <div class="grid" #editor>
   @for (fnode of tree?.Nodes; track fnode.Id) {
-    <app-fnode (changedNode)="getTree()" (removedNode)="getTree()" (redrawLinks)="emitNodePositionChangedEvent($event)" [fnode]="fnode"/>
+    <app-fnode (changedNode)="getTree()" (removedNode)="onRemovedNode(fnode.Id)" (redrawLinks)="emitNodePositionChangedEvent($event)" [fnode]="fnode"/>
   }
+</div>
+<div class="links-wrapper">
   @for (nodeLink of tree?.Links; track nodeLink) {
-    <app-node-link (removed$)="getTree()" [editor]="editor" [nodeLink]="nodeLink" [nodeChanged$]="nodeChanged$"/>
+    <app-node-link (removed$)="getTree()" [editor]="editor" [nodeLink]="nodeLink" [requestRedraw$]="nodeChanged$"/>
   }
 </div>
 <button (click)="parseTree()">Execute</button>
 <button (click)="parseTreePreview()">Preview</button>
 <button (click)="clearTree()">Clear Tree</button>
+<button (click)="zoom(-0.1)">-</button>
+<button (click)="zoom(0.1)">+</button>

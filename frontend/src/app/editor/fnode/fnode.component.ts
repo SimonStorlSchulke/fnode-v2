@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Output, EventEmitter, inject, HostListener } from '@angular/core';
+import { Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Output, EventEmitter, inject} from '@angular/core';
 import { FNode, FInput, FType } from './fnode';
 import {
   UpdateInputDefaultValue,
@@ -11,7 +11,8 @@ import { FTypeColors } from './ftype-colors';
 import { DraggableDirective, DragAndDropModule, DragMoveEvent, DragEndEvent } from 'angular-draggable-droppable';
 import { NgStyle } from '@angular/common';
 import { FeatherModule } from 'angular-feather';
-import { NodeAdderService } from '../../layout/node-adder/node-adder.service';
+import { FNodeService } from '../fnode.service';
+import {CdkDrag} from '@angular/cdk/drag-drop';
 
 type SocketType = "input" | "output";
 
@@ -34,23 +35,19 @@ export class FNodeComponent implements OnInit{
   @ViewChild("header") headerElement!: ElementRef;
   @ViewChild("content") contentElement!: ElementRef;
 
-  nodeAdderSv = inject(NodeAdderService);
+  fNodeSv = inject(FNodeService);
 
   ngOnInit() {
     this.updatePosition();
   }
 
-
-  @HostListener("click", ['$event'])
   selectNode(event: MouseEvent) {
-    this.nodeAdderSv.activeNodeId = this.fnode.Id;
+    this.fNodeSv.activeNodeId = this.fnode.Id;
     if(event.ctrlKey) {
-      this.nodeAdderSv.selectedNodeIds.push(this.fnode.Id);
+      this.fNodeSv.selectedNodeIds.push(this.fnode.Id);
     } else {
-      this.nodeAdderSv.selectedNodeIds = [this.fnode.Id];
+      this.fNodeSv.selectedNodeIds = [this.fnode.Id];
     }
-    event.preventDefault();
-    event.stopPropagation();
 
   }
 
@@ -101,7 +98,6 @@ export class FNodeComponent implements OnInit{
   dragOffsetY = 0;
   onDrag(event: DragMoveEvent) {
     this.dragging = true;
-    const rect = this.headerElement.nativeElement.getBoundingClientRect();
     this.dragOffsetX = event.x;
     this.dragOffsetY = event.y;
     this.redrawLinks.next(this.fnode.Id);
@@ -127,7 +123,7 @@ export class FNodeComponent implements OnInit{
   }
 
   async removeNode() {
-    if(this.nodeAdderSv.activeNodeId == this.fnode.Id) this.nodeAdderSv.activeNodeId = "";
+    if(this.fNodeSv.activeNodeId == this.fnode.Id) this.fNodeSv.activeNodeId = "";
     await RemoveNode(this.fnode.Id);
     this.removedNode.next();
   }

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { NodeCategory } from '../../editor/fnode/fnode';
-import { AddConnectedNode, AddNode, GetNodeCategories } from '../../../../wailsjs/go/controller/App';
+import { NodeCategory } from './fnode/fnode';
+import { AddConnectedNode, AddNode, GetNodeCategories } from '../../../wailsjs/go/controller/App';
 import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NodeAdderService {
+export class FNodeService {
 
   NodeCategories: NodeCategory[] = [];
   nodeAdded$ = new Subject<void>();

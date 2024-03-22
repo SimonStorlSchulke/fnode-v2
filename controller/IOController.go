@@ -14,7 +14,7 @@ func (a *App) Save(name string) {
 func (a *App) SaveAs() {
 	path, err := runtime.SaveFileDialog(core.Ctx, runtime.SaveDialogOptions{})
 	if err != nil {
-		core.Log("Saving failed: &v", core.LogLevelError, err)
+		core.LogError("Saving failed: &v", err)
 	}
 	treeIo.SaveToFile(&tree, "", path)
 }
@@ -22,7 +22,7 @@ func (a *App) SaveAs() {
 func (a *App) LoadFile() {
 	path, err := runtime.OpenFileDialog(core.Ctx, runtime.OpenDialogOptions{})
 	if err != nil {
-		core.Log("Loading failed: &v", core.LogLevelError, err)
+		core.LogError("Loading failed: &v", err)
 	}
 	tree = *treeIo.LoadFromFile(path)
 }

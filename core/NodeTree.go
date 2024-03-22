@@ -46,7 +46,7 @@ func (tree *NodeTree) FindNodeById(id string) (*Node, error) {
 
 func (tree *NodeTree) Parse(layer NodeInteractionLayer, fileList *FileList) {
 
-	Log("Parsing NodeTree", LogLevelInfo)
+	LogInfo("Parsing NodeTree")
 
 	filesList := fileList.GetFlatList()
 
@@ -96,18 +96,18 @@ func (tree *NodeTree) RemoveNode(node *Node) {
 
 func (tree *NodeTree) AddLink(newLink *NodeLink) {
 	if newLink.FromNode == newLink.ToNode {
-		Log("\ncannot connect sockets of the same Node %s", LogLevelError, newLink.FromNode)
+		LogError("\ncannot connect sockets of the same Node %s", newLink.FromNode)
 		return
 	}
 
 	if slices.ContainsFunc(tree.Links, func(link *NodeLink) bool {
 		return link.Equals(newLink)
 	}) {
-		Log("Link already exists:", LogLevelInfo, newLink)
+		LogInfo("Link already exists:", newLink)
 		return
 	}
 
-	Log("Creating Link from %s [%v] tot %s [%v]:", LogLevelInfo, newLink.FromNode, newLink.FromOutput, newLink.ToNode, newLink.ToInput)
+	LogInfo("Creating Link from %s [%v] tot %s [%v]:", newLink.FromNode, newLink.FromOutput, newLink.ToNode, newLink.ToInput)
 
 	//If a link already exists for the requested input, find and remove it
 	tree.Links = slices.DeleteFunc(tree.Links, func(link *NodeLink) bool {
@@ -118,7 +118,7 @@ func (tree *NodeTree) AddLink(newLink *NodeLink) {
 }
 
 func (tree *NodeTree) RemoveLink(toRemove *NodeLink) {
-	Log("Removing Link", LogLevelInfo, toRemove)
+	LogInfo("Removing Link", toRemove)
 	tree.Links = slices.DeleteFunc(tree.Links, func(link *NodeLink) bool {
 		return link.Equals(toRemove)
 	})

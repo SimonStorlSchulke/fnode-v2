@@ -17,11 +17,11 @@ func serialize(tree *core.NodeTree) ([]byte, error) {
 }
 
 func createDirIfNotExists(path string) error {
-	var err error = nil
 	if _, err := os.Stat(path); os.IsNotExist(err) {
-		err = os.Mkdir(path, os.ModePerm)
+		err := os.Mkdir(path, os.ModePerm)
+		return err
 	}
-	return err
+	return nil
 }
 
 func SaveToFile(tree *core.NodeTree, directory string, fileName string) {
@@ -43,7 +43,7 @@ func SaveToFile(tree *core.NodeTree, directory string, fileName string) {
 
 	fullPath := path.Join(directory, fileName)
 
-	core.Log("Saving Tree to File %s", core.LogLevelInfo, fullPath)
+	core.LogInfo("Saving Tree to File %s", fullPath)
 
 	err = os.WriteFile(fullPath, data, 0644)
 	if err != nil {

@@ -8,7 +8,7 @@ import (
 func (a *App) GetPresetNames() []string {
 	names, err := treeIo.GetPresetNames()
 	if err != nil {
-		core.LogErr(err)
+		core.LogRawError(err)
 		return []string{}
 	}
 	return names

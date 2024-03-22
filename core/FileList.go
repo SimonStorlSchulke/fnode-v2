@@ -23,7 +23,6 @@ func (list *FileList) GetFlatList() []FFile {
 			continue
 		}
 		fileInfos = append(fileInfos, FFile{FullPath: filePath, Info: info})
-
 	}
 
 	for _, dir := range list.Directories {
@@ -38,6 +37,7 @@ func (list *FileList) GetFlatList() []FFile {
 	return fileInfos
 }
 
+// getDirFilesRecursive returns all files in a folder and its subdirectories
 func getDirFilesRecursive(path string) []FFile {
 	fileInfos := []FFile{}
 
@@ -52,15 +52,18 @@ func getDirFilesRecursive(path string) []FFile {
 			return nil
 		})
 	if err != nil {
+		LogWarn("File not found: %s", path)
 	}
 	return fileInfos
 }
 
+// getDirFilesFlat gets all files in a directory, NOT including files in subdirectories
 func getDirFilesFlat(path string) []FFile {
 	fileInfos := []FFile{}
 
 	dirEntries, err := os.ReadDir(path)
 	if err != nil {
+		LogWarn("File not found: %s", path)
 	}
 	for _, entry := range dirEntries {
 		if !entry.IsDir() {
