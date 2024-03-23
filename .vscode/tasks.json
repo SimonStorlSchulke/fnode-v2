@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "wails_debug_build",
+        "type": "shell",
+        "options": {
+            "cwd": "src/backend"
+          },
+          "command": "go",
+          "args": [
+            "build",
+            "-tags",
+            "dev",
+            "-gcflags",
+            "all=-N -l",
+            "-o",
+            "build/bin/fnode-debug"
+          ]
+      }
+    ]
+  }

@@ -1,0 +1,24 @@
+<div class="vbox">
+    <div class="vbox p-2 gap-1">
+        <b>Loose Files</b>
+        @for (looseFile of fileListSv.list.LooseFiles; track looseFile) {
+            <div class="hbox center-items">
+                <a (click)="fileListSv.removeLooseFile($index)" class="remove-from-list hbox center-items"><i-feather name="X"></i-feather></a>
+                <span [title]="looseFile">{{looseFile | filenameFromPath}}</span>
+            </div>
+        }
+        <button class="add" (click)="fileListSv.addFilesDialog()"><i-feather name="Plus"></i-feather></button>
+    </div>
+
+    <div class="vbox p-2 gap-1">
+        <b>Directories</b>
+        @for (dir of fileListSv.list.Directories; track dir.Path) {
+            <div class="hbox center-items">
+                <a (click)="fileListSv.removeDirectory($index)" class="remove-from-list hbox center-items"><i-feather name="X"></i-feather></a>
+                <span [title]="dir.Path">{{dir.Path| filenameFromPath}}</span>
+            </div>
+        }
+        <button class="add" (click)="fileListSv.addDirectoryDialog()"><i-feather name="Plus"></i-feather></button>
+    </div>
+
+</div>

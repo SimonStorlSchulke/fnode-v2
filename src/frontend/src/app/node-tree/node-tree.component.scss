@@ -1,0 +1,31 @@
+@use "theme";
+
+$grid-lines-1: rgba(255, 255, 255, 0.06);
+$grid-lines-2: rgba(255, 255, 255, 0.121);
+
+.rete {
+    width: 100%;
+    height: calc(100dvh - 250px);
+    background-color: theme.$neutral-0;
+    background-size: 80px 80px;
+    background-image: linear-gradient(
+        to right,
+        $grid-lines-1 1px,
+        transparent 1px
+    ),
+    linear-gradient(to bottom, $grid-lines-1 1px, transparent 1px),
+    linear-gradient(
+        to right,
+        transparent 40px,
+        $grid-lines-2 40px,
+        $grid-lines-2 41px,
+        transparent 41px
+    ),
+    linear-gradient(
+        to bottom,
+        transparent 40px,
+        $grid-lines-2 40px,
+        $grid-lines-2 41px,
+        transparent 41px
+    );
+  }

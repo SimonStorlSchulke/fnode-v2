@@ -1,0 +1,6 @@
+@if (label != '') {
+  <div class="header"><span>{{label}}</span></div>
+}
+<div [class]="'content ' + direction" [class.no-padding]="noPadding">
+  <ng-content></ng-content>
+</div>

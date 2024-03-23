@@ -1,0 +1,24 @@
+package nodes
+
+import (
+	"fnode2/core"
+)
+
+var fileFromListCurrentFileOutput = core.NewNodeOutput(core.FTypeFile, "File",
+	func(node *core.Node) any {
+		return core.RunState.CurrentFile
+	},
+	true)
+
+func newFileFromListNode() *core.Node {
+	node := core.NewNodeCreator(
+		"FileFromList",
+		"File",
+		[]core.NodeInput{},
+		[]*core.NodeOutput{
+			fileFromListCurrentFileOutput,
+		},
+	)
+
+	return node
+}
