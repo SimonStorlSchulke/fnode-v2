@@ -16,6 +16,8 @@ export function ClearFileList():Promise<void>;
 
 export function ClearTree():Promise<void>;
 
+export function ExitFnode():Promise<void>;
+
 export function GetFileList():Promise<core.FileList>;
 
 export function GetNodeCategories():Promise<Array<core.NodeCategory>>;

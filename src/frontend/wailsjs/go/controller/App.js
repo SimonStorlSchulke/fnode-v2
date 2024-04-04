@@ -30,6 +30,10 @@ export function ClearTree() {
   return window['go']['controller']['App']['ClearTree']();
 }
 
+export function ExitFnode() {
+  return window['go']['controller']['App']['ExitFnode']();
+}
+
 export function GetFileList() {
   return window['go']['controller']['App']['GetFileList']();
 }

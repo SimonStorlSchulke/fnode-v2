@@ -5,6 +5,7 @@ import { WindowMaximise, WindowMinimise, WindowIsMaximised, WindowUnmaximise } f
 import { FeatherModule } from 'angular-feather';
 import { IconsModule } from '../../icons/icons.module';
 import { IOService } from '../../editor/io-service';
+import { ExitFnode } from '../../../../wailsjs/go/controller/App';
 
 @Component({
   selector: 'app-header',
@@ -55,6 +56,10 @@ export class HeaderComponent {
         console.log("WAAAA")
         this.ioSv.SaveTree();
     }
+  }
+
+  async exit() {
+    await ExitFnode();
   }
 
   async maximize() {
