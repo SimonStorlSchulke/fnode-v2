@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { MenuBarComponent } from './ui/menu-bar/menu-bar.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { PanelComponent } from './ui/panel/panel.component';
-import { DragAndDropModule, DragEndEvent } from 'angular-draggable-droppable';
+import { DragEndEvent } from 'angular-draggable-droppable';
 import { NgStyle } from '@angular/common';
 import { FNodeComponent } from './editor/fnode/fnode.component';
 import { FNodeEditorComponent } from './editor/fnode-editor/fnode-editor.component';
@@ -15,7 +15,7 @@ import { NodeTreeComponent } from './node-tree/node-tree.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NodeTreeComponent, MenuBarComponent, HeaderComponent, PanelComponent, DragAndDropModule, NgStyle, FNodeComponent, FNodeEditorComponent, NodeAdderComponent, TerminalComponent, FileListComponent],
+  imports: [RouterOutlet, MenuBarComponent, HeaderComponent, PanelComponent, NgStyle, FNodeComponent, FNodeEditorComponent, NodeAdderComponent, TerminalComponent, FileListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

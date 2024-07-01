@@ -35,6 +35,7 @@ export class FNodeEditorComponent implements OnInit {
 
   protected fNodeSv = inject(FNodeService);
   changeDetectorRef = inject(ChangeDetectorRef);
+  elRef = inject(ElementRef);
 
   constructor() {
     this.fNodeSv.nodeAdded$.subscribe(() => {
@@ -44,6 +45,7 @@ export class FNodeEditorComponent implements OnInit {
 
   async ngOnInit() {
     await this.getTree();
+    this.elRef.nativeElement.style.setProperty('--zoom', this.currentZoom);
   }
 
   protected async getTree() {
@@ -68,7 +70,8 @@ export class FNodeEditorComponent implements OnInit {
   currentZoom = 1;
   zoom(step: number) {
     this.currentZoom += step;
-    this.grid.nativeElement.style.transform = `scale(${this.currentZoom})`;
+    this.elRef.nativeElement.style.setProperty('--zoom', this.currentZoom);
+    //this.grid.nativeElement.style.transform = `scale(${this.currentZoom})`;
     this.nodeChanged$.next('all');
   }
 

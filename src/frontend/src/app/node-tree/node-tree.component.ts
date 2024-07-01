@@ -1,5 +1,4 @@
 import { Component, ElementRef, Injector, ViewChild } from '@angular/core';
-import { createEditor } from './editor';
 
 @Component({
   selector: 'app-node-tree',
@@ -18,7 +17,6 @@ export class NodeTreeComponent {
       const el = this.container.nativeElement;
 
       if (el) {
-        createEditor(el, this.injector);
       }
     }
 }

@@ -26,8 +26,8 @@ type SocketType = "input" | "output";
 export class FNodeComponent implements OnInit{
   @Input({required: true}) fnode!: FNode;
 
-  @HostBinding("style.left") posX = "100px";
-  @HostBinding("style.top") posY = "100px";
+  @HostBinding("style.left") posX = "calc(100px * var(--zoom))";
+  @HostBinding("style.top") posY = "calc(100px * var(--zoom))";
   @Output() redrawLinks = new EventEmitter<string>();
   @Output() changedNode = new EventEmitter<void>();
   @Output() removedNode = new EventEmitter<void>();
@@ -52,8 +52,8 @@ export class FNodeComponent implements OnInit{
   }
 
   updatePosition() {
-    this.posX = `${this.fnode.Meta.PosX}px`;
-    this.posY = `${this.fnode.Meta.PosY}px`;
+    this.posX = `calc(${this.fnode.Meta.PosX}px * var(--zoom))`;
+    this.posY = `calc(${this.fnode.Meta.PosY}px * var(--zoom))`;
 
     this.redrawLinks.next(this.fnode.Id);
     UpdateNodePosition(this.fnode.Id, this.fnode.Meta.PosX, this.fnode.Meta.PosY);

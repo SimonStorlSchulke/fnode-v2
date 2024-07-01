@@ -7,6 +7,7 @@ $grid-lines-2: rgba(255, 255, 255, 0.121);
   position: relative;
   overflow: auto;
   flex-grow: 1;
+  font-size: calc(14px * var(--zoom));
   background-color: theme.$neutral-0;
   background-size: 80px 80px;
   background-image: linear-gradient(
