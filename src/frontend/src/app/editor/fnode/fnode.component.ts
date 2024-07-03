@@ -8,11 +8,10 @@ import {
   RemoveNode
 } from '../../../../wailsjs/go/controller/App';
 import { FTypeColors } from './ftype-colors';
-import { DraggableDirective, DragAndDropModule, DragMoveEvent, DragEndEvent } from 'angular-draggable-droppable';
+import { DragAndDropModule, DragMoveEvent, DragEndEvent } from 'angular-draggable-droppable';
 import { NgStyle } from '@angular/common';
 import { FeatherModule } from 'angular-feather';
 import { FNodeService } from '../fnode.service';
-import {CdkDrag} from '@angular/cdk/drag-drop';
 
 type SocketType = "input" | "output";
 
@@ -25,6 +24,7 @@ type SocketType = "input" | "output";
 })
 export class FNodeComponent implements OnInit{
   @Input({required: true}) fnode!: FNode;
+  @Input({required: true}) viewTransform!: {zoom: number, scrollX: number, scrollY: number};
 
   @HostBinding("style.left") posX = "calc(100px * var(--zoom))";
   @HostBinding("style.top") posY = "calc(100px * var(--zoom))";
@@ -52,8 +52,8 @@ export class FNodeComponent implements OnInit{
   }
 
   updatePosition() {
-    this.posX = `calc(${this.fnode.Meta.PosX}px * var(--zoom))`;
-    this.posY = `calc(${this.fnode.Meta.PosY}px * var(--zoom))`;
+    this.posX = `calc(${this.fnode.Meta.PosX}px * var(--zoom) + var(--scrollX)  )`;
+    this.posY = `calc(${this.fnode.Meta.PosY}px * var(--zoom) + var(--scrollY) )`;
 
     this.redrawLinks.next(this.fnode.Id);
     UpdateNodePosition(this.fnode.Id, this.fnode.Meta.PosX, this.fnode.Meta.PosY);
@@ -105,8 +105,8 @@ export class FNodeComponent implements OnInit{
 
   onDragEnd(event: DragEndEvent) {
     this.dragging = false;
-    this.fnode.Meta.PosX += event.x;
-    this.fnode.Meta.PosY += event.y;
+    this.fnode.Meta.PosX = Math.floor(this.fnode.Meta.PosX + event.x / this.viewTransform.zoom);
+    this.fnode.Meta.PosY = Math.floor(this.fnode.Meta.PosY + event.y / this.viewTransform.zoom);
     this.updatePosition();
   }
 

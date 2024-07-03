@@ -10,7 +10,6 @@ import { FNodeEditorComponent } from './editor/fnode-editor/fnode-editor.compone
 import { NodeAdderComponent } from './layout/node-adder/node-adder.component';
 import { TerminalComponent } from './layout/terminal/terminal.component';
 import { FileListComponent } from './layout/file-list/file-list.component';
-import { NodeTreeComponent } from './node-tree/node-tree.component';
 
 @Component({
   selector: 'app-root',

@@ -18,12 +18,13 @@ export class TerminalService {
     });
 
     EventsOn("log", (line: any) => {
-      console.log(line);
+      console.log("line");
       this.logReceived$.next(line);
     });
   }
 
   log(line: string) {
+    console.log(line)
     this.logReceived$.next(`<span style="color: #7abfff">${line}</span>`);
   }
 

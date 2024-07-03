@@ -26,7 +26,7 @@ func LogWarn(format string, args ...any) {
 func LogError(format string, args ...any) {
 	formatString := fmt.Sprintf(format, args...)
 	fmt.Println("Error: " + formatString)
-	runtime.EventsEmit(Ctx, "Weeoe: "+formatString)
+	runtime.EventsEmit(Ctx, "error: "+formatString)
 }
 
 func LogRawError(err error) {

@@ -20,6 +20,11 @@
 .close {
   visibility: hidden;
   padding: 6px 4px;
+  padding-top: calc(6px * var(--zoom));
+  padding-bottom: calc(6px * var(--zoom));
+  padding-left: calc(4px * var(--zoom));
+  padding-right: calc(4px * var(--zoom));
+  width: calc(26px * var(--zoom));
   position: absolute;
   top: 0px;
   right: 0px;
@@ -122,5 +127,11 @@
 .foutput {
   .socket {
     right: calc(-6px * var(--zoom));;
+  }
+}
+
+.dragover {
+  .socket {
+    filter: brightness(1.5);
   }
 }

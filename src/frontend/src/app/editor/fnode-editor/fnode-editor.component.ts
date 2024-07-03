@@ -33,6 +33,18 @@ export class FNodeEditorComponent implements OnInit {
   protected nodeChanged$ = new Subject<string>();
   @ViewChild('editor') grid!: ElementRef<HTMLElement>;
 
+  viewTransform = {
+    zoom: 1,
+    scrollX: 1,
+    scrollY: 1,
+  }
+
+
+  @HostListener('wheel', ['$event'])
+  onMousewheel(event: WheelEvent) {
+    this.zoom(event.deltaY > 0 ? -0.1 : 0.1, event.clientX, event.clientY);
+  }
+
   protected fNodeSv = inject(FNodeService);
   changeDetectorRef = inject(ChangeDetectorRef);
   elRef = inject(ElementRef);
@@ -45,7 +57,7 @@ export class FNodeEditorComponent implements OnInit {
 
   async ngOnInit() {
     await this.getTree();
-    this.elRef.nativeElement.style.setProperty('--zoom', this.currentZoom);
+    this.updateViewTransform();
   }
 
   protected async getTree() {
@@ -67,11 +79,10 @@ export class FNodeEditorComponent implements OnInit {
     this.nodeChanged$.next(nodeId);
   }
 
-  currentZoom = 1;
-  zoom(step: number) {
-    this.currentZoom += step;
-    this.elRef.nativeElement.style.setProperty('--zoom', this.currentZoom);
-    //this.grid.nativeElement.style.transform = `scale(${this.currentZoom})`;
+  zoom(step: number, cursorX = 0, cursorY = 0) {
+    this.viewTransform.zoom = Math.min(Math.max(this.viewTransform.zoom + step, 0.25), 1.5);
+    this.updateViewTransform();
+    //this.grid.nativeElement.style.transform = `scale(${this.viewTransorm.zoom})`;
     this.nodeChanged$.next('all');
   }
 
@@ -102,5 +113,10 @@ export class FNodeEditorComponent implements OnInit {
 
   protected emitNodePositionChangedEvent(nodeId: string) {
     this.nodeChanged$.next(nodeId);
+  }
+  private updateViewTransform() {
+    this.elRef.nativeElement.style.setProperty('--zoom', this.viewTransform.zoom);
+    this.elRef.nativeElement.style.setProperty('--scrollX', `${this.viewTransform.scrollX}px`);
+    this.elRef.nativeElement.style.setProperty('--scrollY', `${this.viewTransform.scrollY}px`);
   }
 }

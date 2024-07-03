@@ -18,11 +18,24 @@ select {
   background: theme.$neutral-3;
   color: theme.$text-0;
   border: none;
+  font-size: calc(14px * var(--zoom));  
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-top: calc(2px * var(--zoom));  
+  padding-bottom: calc(2px * var(--zoom));  
+  padding-left: calc(6px * var(--zoom));  
+  padding-right: calc(6px * var(--zoom));  
+
+  option {
+    font-size: calc(14px * var(--zoom));
+  }
 
   option.active {
     color: theme.$accent-text;
   }
 }
+
 
 textarea {
   background-color: theme.$neutral-1;
