@@ -1,6 +1,7 @@
 @use "theme";
 
 :host {
+  z-index: 10;
   .hbox {
     button {
       background: linear-gradient(theme.$neutral-3 6px, theme.$neutral-3 6px);

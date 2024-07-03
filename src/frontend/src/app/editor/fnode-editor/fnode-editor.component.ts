@@ -45,6 +45,33 @@ export class FNodeEditorComponent implements OnInit {
     this.zoom(event.deltaY > 0 ? -0.1 : 0.1, event.clientX, event.clientY);
   }
 
+  dragStartingPoint = {
+    x: 0,
+    y: 0,
+  }
+  dragging = false;
+
+  onDragStart(event: MouseEvent) {
+    this.dragging = true;
+    this.dragStartingPoint = {
+      x: event.clientX - this.viewTransform.scrollX,
+      y: event.clientY - this.viewTransform.scrollY,
+    }
+  }
+
+  onDragEnd(event: MouseEvent) {
+    if(!this.dragging) return;
+    this.dragging = false;
+  }
+
+  onDrag(event: MouseEvent) {
+    if(this.dragging) {
+      this.viewTransform.scrollX = event.clientX - this.dragStartingPoint.x;
+      this.viewTransform.scrollY = event.clientY - this.dragStartingPoint.y;
+      this.updateViewTransform();
+    }
+  }
+
   protected fNodeSv = inject(FNodeService);
   changeDetectorRef = inject(ChangeDetectorRef);
   elRef = inject(ElementRef);
@@ -81,9 +108,7 @@ export class FNodeEditorComponent implements OnInit {
 
   zoom(step: number, cursorX = 0, cursorY = 0) {
     this.viewTransform.zoom = Math.min(Math.max(this.viewTransform.zoom + step, 0.25), 1.5);
-    this.updateViewTransform();
-    //this.grid.nativeElement.style.transform = `scale(${this.viewTransorm.zoom})`;
-    this.nodeChanged$.next('all');
+    this.updateViewTransform();    
   }
 
   protected async parseTree() {
@@ -103,7 +128,7 @@ export class FNodeEditorComponent implements OnInit {
   protected deselectNodes(event: MouseEvent) {
     const clickedGrid = (
       event.target as HTMLElement
-    ).children[0]?.classList.contains('grid'); //hacky...
+    )?.classList.contains('grid'); //hacky...
     if (clickedGrid) {
       this.fNodeSv.activeNodeId = '';
       this.fNodeSv.selectedNodeIds = [];
@@ -112,11 +137,14 @@ export class FNodeEditorComponent implements OnInit {
   }
 
   protected emitNodePositionChangedEvent(nodeId: string) {
-    this.nodeChanged$.next(nodeId);
+    window.setTimeout(() => {
+      this.nodeChanged$.next(nodeId);
+    }, 0);
   }
   private updateViewTransform() {
     this.elRef.nativeElement.style.setProperty('--zoom', this.viewTransform.zoom);
     this.elRef.nativeElement.style.setProperty('--scrollX', `${this.viewTransform.scrollX}px`);
     this.elRef.nativeElement.style.setProperty('--scrollY', `${this.viewTransform.scrollY}px`);
+    this.nodeChanged$.next('all');
   }
 }

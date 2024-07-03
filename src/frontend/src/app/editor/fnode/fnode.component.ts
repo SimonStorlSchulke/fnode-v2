@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Output, EventEmitter, inject} from '@angular/core';
+import { Component, Input, HostBinding, OnInit, ViewChild, ElementRef, Output, EventEmitter, inject, HostListener} from '@angular/core';
 import { FNode, FInput, FType } from './fnode';
 import {
   UpdateInputDefaultValue,
@@ -41,6 +41,7 @@ export class FNodeComponent implements OnInit{
     this.updatePosition();
   }
 
+  @HostListener('click', ['$event'])
   selectNode(event: MouseEvent) {
     this.fNodeSv.activeNodeId = this.fnode.Id;
     if(event.ctrlKey) {

@@ -6,7 +6,11 @@
   <button (click)="zoom(0.1)">+</button>
 </div>
 
-<div class="grid" #editor>
+<div class="grid" #editor 
+(mousemove)="dragging ? onDrag($event) : null" 
+(mousedown)="$event.which == 2 ? onDragStart($event) : null" 
+(mouseup)="$event.which == 2 ? onDragEnd($event) : null"
+(mouseleave)="onDragEnd($event)">
   @for (fnode of tree?.Nodes; track fnode.Id) {
   <app-fnode
     [fnode]="fnode"
