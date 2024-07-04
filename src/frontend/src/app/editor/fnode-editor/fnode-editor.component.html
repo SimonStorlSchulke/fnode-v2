@@ -1,9 +1,7 @@
-<div class="hbox grow-1">
-  <button (click)="parseTree()">Execute</button>
+<div class="hbox center grow-1">
   <button (click)="parseTreePreview()">Preview</button>
+  <button (click)="parseTree()">Execute</button>
   <button (click)="clearTree()">Clear Tree</button>
-  <button (click)="zoom(-0.1)">-</button>
-  <button (click)="zoom(0.1)">+</button>
 </div>
 
 <div class="grid" #editor 
@@ -22,6 +20,8 @@
   }
 </div>
 <div class="links-wrapper">
+
+
   @for (nodeLink of tree?.Links; track nodeLink) {
   <app-node-link
     (removed$)="getTree()"

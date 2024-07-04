@@ -24,17 +24,20 @@ func createDirIfNotExists(path string) error {
 	return nil
 }
 
-func SaveToFile(tree *core.NodeTree, directory string, fileName string) {
+func SaveToFile(tree *core.NodeTree, directory string, fileName string) error {
 	data, err := serialize(tree)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
+
+	fmt.Println(directory)
+	fmt.Println(fileName)
 
 	err = createDirIfNotExists(directory)
 	if err != nil {
 		fmt.Println(err)
-		return
+		return err
 	}
 
 	if !strings.HasSuffix(fileName, ".fn") {
@@ -48,5 +51,7 @@ func SaveToFile(tree *core.NodeTree, directory string, fileName string) {
 	err = os.WriteFile(fullPath, data, 0644)
 	if err != nil {
 		fmt.Println(err)
+		return err
 	}
+	return nil
 }

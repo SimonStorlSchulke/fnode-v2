@@ -198,3 +198,13 @@ $context-menu-round: 7px;
     }
   }
 }
+
+body:has(.is-connecting-nodes) {
+  .dragover {
+    outline: 2px solid #ffff0077;
+    outline-offset: -2px;
+    .socket {
+      filter: brightness(1.5);
+    }
+  }
+}

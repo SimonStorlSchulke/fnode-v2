@@ -4,30 +4,32 @@ import {
   UpdateInputDefaultValue,
   AddLink,
   UpdateNodePosition,
-  UpdateUption,
+  UpdateUption as UpdateOption,
   RemoveNode
 } from '../../../../wailsjs/go/controller/App';
 import { FTypeColors } from './ftype-colors';
-import { DragAndDropModule, DragMoveEvent, DragEndEvent } from 'angular-draggable-droppable';
+import { DragAndDropModule, DragMoveEvent, DragEndEvent, DragStartEvent } from 'angular-draggable-droppable';
 import { NgStyle } from '@angular/common';
 import { FeatherModule } from 'angular-feather';
 import { FNodeService } from '../fnode.service';
+import { NodeLinkGhostComponent } from '../node-link-ghost/node-link-ghost.component';
+import { Subject } from 'rxjs';
+import { Point } from '../point';
 
-type SocketType = "input" | "output";
+type SocketType = "fromInput" | "fromOutput";
 
 @Component({
   selector: 'app-fnode',
   standalone: true,
-  imports: [DragAndDropModule, NgStyle, FeatherModule],
+  imports: [DragAndDropModule, NgStyle, FeatherModule, NodeLinkGhostComponent],
   templateUrl: './fnode.component.html',
   styleUrl: './fnode.component.scss',
 })
 export class FNodeComponent implements OnInit{
   @Input({required: true}) fnode!: FNode;
   @Input({required: true}) viewTransform!: {zoom: number, scrollX: number, scrollY: number};
-
-  @HostBinding("style.left") posX = "calc(100px * var(--zoom))";
-  @HostBinding("style.top") posY = "calc(100px * var(--zoom))";
+  @HostBinding("style.left") cssPosX = "calc(100px * var(--zoom))";
+  @HostBinding("style.top") cssPosY = "calc(100px * var(--zoom))";
   @Output() redrawLinks = new EventEmitter<string>();
   @Output() changedNode = new EventEmitter<void>();
   @Output() removedNode = new EventEmitter<void>();
@@ -37,9 +39,32 @@ export class FNodeComponent implements OnInit{
 
   fNodeSv = inject(FNodeService);
 
+  requestRedrawGhostLink$ = new Subject<[HTMLElement, Point]>();
+  isConnectingNodes = false;
+
+  currentDraggingSocket?: HTMLElement;
+
   ngOnInit() {
     this.updatePosition();
   }
+
+  onStartDraggingSocket(socket: HTMLElement) {
+    window.setTimeout(() => {
+      this.currentDraggingSocket = socket;
+      this.isConnectingNodes = true;
+    }, 0)
+  }
+
+
+  onEndDraggingSocket() {
+    this.isConnectingNodes = false;
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onDraggingSocket(event: MouseEvent) {
+    if(!this.isConnectingNodes) return;
+    this.requestRedrawGhostLink$.next([this.currentDraggingSocket!, {x: event.clientX, y: event.clientY}]);
+   }
 
   @HostListener('click', ['$event'])
   selectNode(event: MouseEvent) {
@@ -53,8 +78,8 @@ export class FNodeComponent implements OnInit{
   }
 
   updatePosition() {
-    this.posX = `calc(${this.fnode.Meta.PosX}px * var(--zoom) + var(--scrollX)  )`;
-    this.posY = `calc(${this.fnode.Meta.PosY}px * var(--zoom) + var(--scrollY) )`;
+    this.cssPosX = `calc(${this.fnode.Meta.PosX}px * var(--zoom) + var(--scrollX)  )`;
+    this.cssPosY = `calc(${this.fnode.Meta.PosY}px * var(--zoom) + var(--scrollY) )`;
 
     this.redrawLinks.next(this.fnode.Id);
     UpdateNodePosition(this.fnode.Id, this.fnode.Meta.PosX, this.fnode.Meta.PosY);
@@ -85,14 +110,14 @@ export class FNodeComponent implements OnInit{
 
   async updatedOption(optionKey: string, selectedChoice: EventTarget | null) {
     const value = (selectedChoice as HTMLSelectElement).value
-    const success = await UpdateUption(this.fnode.Id, optionKey, value);
+    const success = await UpdateOption(this.fnode.Id, optionKey, value);
     if (success) {
       this.fnode.Options.get(optionKey)!.SelectedOption = value;
       this.changedNode.next();
     }
   }
 
-  protected readonly FTypeColors = FTypeColors;
+  readonly FTypeColors = FTypeColors;
 
   dragging = false;
   dragOffsetX = 0;
@@ -102,6 +127,7 @@ export class FNodeComponent implements OnInit{
     this.dragOffsetX = event.x;
     this.dragOffsetY = event.y;
     this.redrawLinks.next(this.fnode.Id);
+
   }
 
   onDragEnd(event: DragEndEvent) {

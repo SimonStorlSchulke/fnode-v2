@@ -14,7 +14,7 @@ export class TabContainerComponent {
 
   @Output() switched = new EventEmitter<number>();
 
-  protected currentTab = 0;
+  currentTab = 0;
 
   switchTab(index: number) {
     this.currentTab = index;

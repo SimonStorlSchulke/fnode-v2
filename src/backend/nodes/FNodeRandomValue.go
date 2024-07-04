@@ -11,7 +11,7 @@ var randomValueOutput = core.NewNodeOutput(core.FTypeFloat, "Result",
 		min := node.GetInputFloat(0)
 		max := node.GetInputFloat(1)
 		//TODO bias := inputs[2].(float64)
-		r := rand.New(rand.NewSource(time.Now().Unix() + int64(core.RunState.CurrentIteration)))
+		r := rand.New(rand.NewSource(time.Now().UnixMicro() + int64(core.RunState.CurrentIteration)))
 		random0To1 := r.Float64()
 		return min + random0To1*(max-min)
 	},

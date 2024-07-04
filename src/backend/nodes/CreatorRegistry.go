@@ -14,6 +14,7 @@ var nodeCreatorRegistry = map[string]func() *core.Node{
 	"Math.Value":        newValueNode,
 	"Math.Math":         newMathNode,
 	"Math.RandomValue":  newRandomValueNode,
+	"Math.FloatToInt":   newFloatToIntNode,
 	"Text.Text":         newTextNode,
 	"Text.TextReplace":  newTextReplaceNode,
 	"Text.TextContains": newTextContainsNode,

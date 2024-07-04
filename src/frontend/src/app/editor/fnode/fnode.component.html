@@ -4,7 +4,7 @@
   </span>
 </div>
 
-<div #content class="fnode-content vbox gap-1"
+<div #content class="fnode-content vbox gap-1"  [class.is-connecting-nodes]="isConnectingNodes"
 [class.active]="fNodeSv.activeNodeId == fnode.Id" 
 [class.selected]="fNodeSv.selectedNodeIds.includes(fnode.Id)" 
 [class.dragged]="dragging" [style.left]="dragOffsetX + 'px'"
@@ -12,13 +12,16 @@
   <i-feather (click)="removeNode()" class="close hbox center-items" name="X"/>
 
   @for (output of fnode.Outputs; track output.Name) {
-    <div class="foutput hbox center-items gap-3 end"
+    <div #outputSocket class="foutput hbox center-items gap-3 end"
     mwlDraggable
+    (dragStart)="onStartDraggingSocket(outputSocket)"
+    (dragEnd)="onEndDraggingSocket()"
     [dropData]="[fnode.Id, $index, 'fromOutput']"
     [dragOverClass]="'dragover'"
     [ghostDragEnabled]="false"
-
-    mwlDroppable>
+    mwlDroppable
+    (drop)="addLink(fnode.Id, $index, $event.dropData[0], $event.dropData[1], $event.dropData[2], 'fromOutput')"
+    >
       <span>{{output.Name}}</span>
       <div class="socket"
            [id]="'output_' + fnode.Id + '__' + $index"
@@ -40,14 +43,21 @@
     </div>
   }
 
+  @if(isConnectingNodes) {
+    <app-node-link-ghost
+    [requestRedraw$]="requestRedrawGhostLink$"/>
+  }
+
   @for (input of fnode.Inputs; track input.Name) {
-    <div class="finput hbox center-items space-between gap-2"
+    <div #inputSocket class="finput hbox center-items space-between gap-2"
     mwlDraggable
     [dropData]="[fnode.Id, $index, 'fromInput']"
     mwlDroppable
+    (dragStart)="onStartDraggingSocket(inputSocket)"
+    (dragEnd)="onEndDraggingSocket()"
     [ghostDragEnabled]="false"
     [dragOverClass]="'dragover'"
-    (drop)="addLink($event.dropData[0],$event.dropData[1], fnode.Id, $index, $event.dropData[2], 'input')">
+    (drop)="addLink($event.dropData[0],$event.dropData[1], fnode.Id, $index, $event.dropData[2], 'fromInput')">
       <div class="socket"
            [id]="'input_' + fnode.Id + '__' + $index"
            style="background-color: {{FTypeColors[input.Type] }}"></div>

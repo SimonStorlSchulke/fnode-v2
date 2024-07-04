@@ -61,6 +61,12 @@ func (tree *NodeTree) Parse(layer NodeInteractionLayer, fileList *FileList) {
 		tree.removeOutputCaches()
 	}
 
+	if len(filesList) == 0 {
+		RunState.CurrentIteration = 0
+		tree.parseIteration(executives, layer)
+		tree.removeOutputCaches()
+	}
+
 	RunState = TreeRunState{}
 }
 

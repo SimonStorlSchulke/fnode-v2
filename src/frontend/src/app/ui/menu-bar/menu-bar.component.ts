@@ -25,10 +25,9 @@ export class MenuBarComponent {
   @Input() disabledKeys: [string, string][] = [];
   @Output() entrySelected = new EventEmitter<[string, string]>();
 
-  protected openIndex: number = -1;
+  openIndex: number = -1;
 
   private inside: boolean = false;
-  private someText: string = "";
 
   @HostListener("click")
   clicked() {
