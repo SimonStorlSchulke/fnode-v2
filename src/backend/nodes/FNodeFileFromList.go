@@ -10,6 +10,10 @@ var fileFromListCurrentFileOutput = core.NewNodeOutput(core.FTypeFile, "File",
 	},
 	true)
 
+var fileFromListIndexOutput = core.NewNodeOutput(core.FTypeInt, "Index",
+	func(node *core.Node) any { return core.RunState.CurrentIteration },
+	true)
+
 func newFileFromListNode() *core.Node {
 	node := core.NewNodeCreator(
 		"FileFromList",
@@ -17,6 +21,7 @@ func newFileFromListNode() *core.Node {
 		[]core.NodeInput{},
 		[]*core.NodeOutput{
 			fileFromListCurrentFileOutput,
+			fileFromListIndexOutput,
 		},
 	)
 

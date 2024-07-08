@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -22,4 +23,12 @@ func (l *InteractionLayerMock) VerifyPrinted(t *testing.T, text string) {
 func (l *InteractionLayerMock) RemoveFile(path string) error {
 	l.removedFiles = append(l.removedFiles, path)
 	return nil
+}
+
+func (l *InteractionLayerMock) RenameFile(oldPath string, newName string) string {
+	return fmt.Sprintf("Would renamed File '%s' to '%s'", oldPath, newName)
+}
+
+func (l *InteractionLayerMock) MoveFile(oldPath string, newPath string) string {
+	return fmt.Sprintf("Would move File '%s' to '%s'", oldPath, newPath)
 }

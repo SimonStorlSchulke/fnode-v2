@@ -6,4 +6,6 @@ package core
 type NodeInteractionLayer interface {
 	Print(text string)
 	RemoveFile(path string) error
+	RenameFile(oldPath string, newName string) string
+	MoveFile(oldPath string, newPath string) string
 }
