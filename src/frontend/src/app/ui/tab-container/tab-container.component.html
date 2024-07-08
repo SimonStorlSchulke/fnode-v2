@@ -1,0 +1,5 @@
+<div class="{{vertical ? 'vbox' : 'hbox'}}">
+  @for(tab of tabs; track tab) {
+      <button [class.active]="$index == currentTab" (click)="switchTab($index)">{{tab}}</button>
+  }
+</div>

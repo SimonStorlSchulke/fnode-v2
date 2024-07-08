@@ -1,0 +1,96 @@
+
+[[Links]]
+  FromNode = "Value_e5df2270-c70e-46cd-80e3-f9da35fdb530"
+  FromOutput = 0
+  ToInput = 1
+  ToNode = "Math_aed26c92-413f-4a75-ab21-08ccc7134661"
+
+[[Links]]
+  FromNode = "Math_9f7e346d-13e5-49b0-ae86-788d5e8ae3d3"
+  FromOutput = 0
+  ToInput = 0
+  ToNode = "Math_aed26c92-413f-4a75-ab21-08ccc7134661"
+
+[[Links]]
+  FromNode = "Math_aed26c92-413f-4a75-ab21-08ccc7134661"
+  FromOutput = 0
+  ToInput = 0
+  ToNode = "Print_c001b86b-7130-4cca-953d-45fc4658e64e"
+
+[[Nodes]]
+  Id = "Math_9f7e346d-13e5-49b0-ae86-788d5e8ae3d3"
+  Type = "Math"
+
+  [[Nodes.Inputs]]
+    DefaultValue = 5.0
+    Name = "a"
+    Type = 0
+
+  [[Nodes.Inputs]]
+    DefaultValue = 10.0
+    Name = "b"
+    Type = 0
+
+  [Nodes.Meta]
+    PosX = 0
+    PosY = 0
+
+  [Nodes.Options]
+
+    [Nodes.Options.Mode]
+      Choices = ["Add", "Subtract", "Multiply", "Divide", "Power", "Square Root", "Sin", "Cos"]
+      SelectedOption = "Add"
+
+[[Nodes]]
+  Id = "Value_e5df2270-c70e-46cd-80e3-f9da35fdb530"
+  Type = "Value"
+
+  [[Nodes.Inputs]]
+    DefaultValue = 4.0
+    Name = "value"
+    Type = 0
+
+  [Nodes.Meta]
+    PosX = 0
+    PosY = 0
+
+  [Nodes.Options]
+
+[[Nodes]]
+  Id = "Print_c001b86b-7130-4cca-953d-45fc4658e64e"
+  Type = "Print"
+
+  [[Nodes.Inputs]]
+    DefaultValue = ""
+    Name = "Text"
+    Type = 2
+
+  [Nodes.Meta]
+    PosX = 0
+    PosY = 0
+
+  [Nodes.Options]
+
+[[Nodes]]
+  Id = "Math_aed26c92-413f-4a75-ab21-08ccc7134661"
+  Type = "Math"
+
+  [[Nodes.Inputs]]
+    DefaultValue = 1.0
+    Name = "a"
+    Type = 0
+
+  [[Nodes.Inputs]]
+    DefaultValue = 2.0
+    Name = "b"
+    Type = 0
+
+  [Nodes.Meta]
+    PosX = 0
+    PosY = 0
+
+  [Nodes.Options]
+
+    [Nodes.Options.Mode]
+      Choices = ["Add", "Subtract", "Multiply", "Divide", "Power", "Square Root", "Sin", "Cos"]
+      SelectedOption = "Multiply"

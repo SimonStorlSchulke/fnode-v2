@@ -1,0 +1,138 @@
+@use "theme";
+
+:host {
+  user-select: none;
+  position: absolute;
+  color: theme.$text-0;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: default;
+  min-width: calc(150px * var(--zoom));
+  box-sizing: border-box;
+
+  &:hover .close {
+    visibility: visible;
+  }
+}
+
+.close {
+  //visibility: hidden;
+  padding: 6px 4px;
+  padding-top: calc(6px * var(--zoom));
+  padding-bottom: calc(6px * var(--zoom));
+  padding-left: calc(4px * var(--zoom));
+  padding-right: calc(4px * var(--zoom));
+  width: calc(22px * var(--zoom));
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #ff2727;
+  }
+}
+
+.fnode-header {
+  user-select: none;
+  color: theme.$text-1;
+  font-weight: 500;
+  z-index: 2;
+  height: calc(35px * var(--zoom));
+
+
+  span {
+    padding: 6px 0px 6px 8px;
+    width: 100%;
+
+
+    &.Math {
+      background-color: rgb(31, 37, 42);
+    }
+
+    &.Text {
+      background-color: rgb(143, 89, 27);
+    }
+
+    &.Output {
+      background-color: rgb(95, 33, 33);
+    }
+
+    &.Control {
+      background-color: rgb(0, 0, 0);
+    }
+
+    &.File {
+      background-color: rgb(21, 100, 70);
+    }
+  }
+}
+
+.fnode-content {
+  outline: 1px solid theme.$neutral-1;
+  z-index: 1;
+  padding: calc(8px * var(--zoom));
+  padding-top: calc(42px * var(--zoom));
+  margin-top: calc(-35px * var(--zoom));
+  border-radius: calc(4px * var(--zoom));
+  background-color: theme.$neutral-2;
+  box-shadow: 1px 2px 8px #0008;
+  transition: box-shadow 0.33s;
+
+  &.selected {
+    outline: 2px solid theme.$selected-1;
+  }
+  &.active {
+    outline: 2px solid theme.$selected-2;
+  }
+
+
+
+  &.dragged {
+    position: relative;
+    box-shadow: 2px 3px 22px #000a;
+  }
+}
+
+.socket {
+  position: absolute;
+  width: calc(12px * var(--zoom));
+  height: calc(12px * var(--zoom));
+  outline: 1px solid theme.$neutral-0;
+  border-radius: 50%;
+}
+
+.finput,
+.foutput {
+  &:hover {
+    .socket {
+      filter: brightness(1.75);
+    }
+  }
+}
+
+.finput {
+  height: calc(30px * var(--zoom));
+  position: relative;
+  padding: 0 calc(4px * var(--zoom));
+  
+  input {
+    font-size: calc(14px * var(--zoom));
+    width: calc(60px * var(--zoom));
+    height: calc(20px * var(--zoom));
+  }
+
+  .socket {
+    left: calc(-14px * var(--zoom));
+  }
+}
+
+.foutput {
+  height: calc(20px * var(--zoom));
+  .socket {
+    right: calc(-6px * var(--zoom));;
+  }
+}
+

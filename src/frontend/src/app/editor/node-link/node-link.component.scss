@@ -1,0 +1,23 @@
+.connection .main-path {
+  fill: none;
+  stroke-width: 2.5px;
+  pointer-events: all;
+
+  &:hover {
+    stroke: red !important;
+  }
+
+}
+
+:host {
+  position: absolute;
+  z-index: 3;
+}
+
+svg {
+  overflow: visible !important;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  pointer-events: none;
+}

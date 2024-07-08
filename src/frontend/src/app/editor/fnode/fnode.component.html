@@ -1,0 +1,68 @@
+<div [title]="fnode.Id" #header mwlDraggable (dragging)="onDrag($event)" (dragEnd)="onDragEnd($event)" class="fnode-header hbox">
+  <span class="hbox center-items {{fnode.Meta.Category}}">
+    <span>{{fnode.Type}}</span>
+  </span>
+</div>
+
+<div #content class="fnode-content vbox gap-1"  [class.is-connecting-nodes]="isConnectingNodes"
+[class.active]="fNodeSv.activeNodeId == fnode.Id" 
+[class.selected]="fNodeSv.selectedNodeIds.includes(fnode.Id)" 
+[class.dragged]="dragging" [style.left]="dragOffsetX + 'px'"
+[style.top]="dragOffsetY + 'px'">
+  <i-feather (click)="removeNode()" class="close hbox center-items" name="X"/>
+
+  @for (output of fnode.Outputs; track output.Name) {
+    <div #outputSocket class="foutput hbox center-items gap-3 end"
+    mwlDraggable
+    (dragStart)="onStartDraggingSocket(outputSocket)"
+    (dragEnd)="onEndDraggingSocket()"
+    [dropData]="[fnode.Id, $index, 'fromOutput']"
+    [dragOverClass]="'dragover'"
+    [ghostDragEnabled]="false"
+    mwlDroppable
+    (drop)="addLink(fnode.Id, $index, $event.dropData[0], $event.dropData[1], $event.dropData[2], 'fromOutput')"
+    >
+      <span>{{output.Name}}</span>
+      <div class="socket"
+           [id]="'output_' + fnode.Id + '__' + $index"
+           style="background-color: {{FTypeColors[output.Type] }}">
+      </div>
+    </div>
+  }
+
+  @for(option of fnode.Options; track option[0]) {
+    <div class="hbox gap-2 space-between">
+      <span>{{option[0]}}</span>
+
+      <select  (change)="updatedOption(option[0], $event.target)" name="pets" id="pet-select">
+
+        @for(choice of option[1].Choices; track choice) {
+          <option [class.active]="choice == option[1].SelectedOption" [value]="choice">{{choice}}</option>
+        }
+      </select>
+    </div>
+  }
+
+  @if(isConnectingNodes) {
+    <app-node-link-ghost
+    [requestRedraw$]="requestRedrawGhostLink$"/>
+  }
+
+  @for (input of fnode.Inputs; track input.Name) {
+    <div #inputSocket class="finput hbox center-items space-between gap-2"
+    mwlDraggable
+    [dropData]="[fnode.Id, $index, 'fromInput']"
+    mwlDroppable
+    (dragStart)="onStartDraggingSocket(inputSocket)"
+    (dragEnd)="onEndDraggingSocket()"
+    [ghostDragEnabled]="false"
+    [dragOverClass]="'dragover'"
+    (drop)="addLink($event.dropData[0],$event.dropData[1], fnode.Id, $index, $event.dropData[2], 'fromInput')">
+      <div class="socket"
+           [id]="'input_' + fnode.Id + '__' + $index"
+           style="background-color: {{FTypeColors[input.Type] }}"></div>
+      <input [type]="getHtmlInputType(input)"(change)="updateInputValue($index, $event, input.Type)" [step]="input.Type == 0 ? '0.01' : '1'" [value]="input.DefaultValue">
+      <label>{{input.Name}}</label>
+    </div>
+  }
+</div>

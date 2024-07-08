@@ -1,0 +1,33 @@
+<div class="hbox center grow-1">
+  <button (click)="parseTreePreview()">Preview</button>
+  <button (click)="parseTree()">Execute</button>
+  <button (click)="clearTree()">Clear Tree</button>
+</div>
+
+<div class="grid" #editor 
+(mousemove)="dragging ? onDrag($event) : null" 
+(mousedown)="$event.which == 2 ? onDragStart($event) : null" 
+(mouseup)="$event.which == 2 ? onDragEnd($event) : null"
+(mouseleave)="onDragEnd($event)">
+  @for (fnode of tree?.Nodes; track fnode.Id) {
+  <app-fnode
+    [fnode]="fnode"
+    [viewTransform]="viewTransform"
+    (changedNode)="getTree()"
+    (removedNode)="onRemovedNode(fnode.Id)"
+    (redrawLinks)="emitNodePositionChangedEvent($event)"
+  />
+  }
+</div>
+<div class="links-wrapper">
+
+
+  @for (nodeLink of tree?.Links; track nodeLink) {
+  <app-node-link
+    (removed$)="getTree()"
+    [editor]="editor"
+    [nodeLink]="nodeLink"
+    [requestRedraw$]="nodeChanged$"
+  />
+  }
+</div>

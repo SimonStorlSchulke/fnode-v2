@@ -1,0 +1,43 @@
+@use "./theme";
+@use "./variables" as *;
+
+input {
+  background-color: theme.$neutral-3;
+  color: theme.$text-2;
+  font-size: $fontsize-small;
+  font-weight: 500;
+  border: none;
+  padding: 3px 0px 3px 4px;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  //...
+}
+
+select {
+  background: theme.$neutral-3;
+  color: theme.$text-0;
+  border: none;
+  font-size: calc(14px * var(--zoom));  
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-top: calc(2px * var(--zoom));  
+  padding-bottom: calc(2px * var(--zoom));  
+  padding-left: calc(6px * var(--zoom));  
+  padding-right: calc(6px * var(--zoom));  
+
+  option {
+    font-size: calc(14px * var(--zoom));
+  }
+
+  option.active {
+    color: theme.$accent-text;
+  }
+}
+
+
+textarea {
+  background-color: theme.$neutral-1;
+  border: none;
+}
