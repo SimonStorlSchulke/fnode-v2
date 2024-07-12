@@ -8,7 +8,7 @@ require github.com/pelletier/go-toml v1.9.5
 
 require (
 	github.com/stretchr/testify v1.8.4
-	github.com/wailsapp/wails/v2 v2.8.2
+	github.com/wailsapp/wails/v2 v2.8.0
 	golang.org/x/net v0.25.0
 )
 

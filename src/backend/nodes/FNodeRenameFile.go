@@ -5,23 +5,23 @@ import (
 )
 
 func renameFileOutput(interactionLayer core.NodeInteractionLayer, inputs []any, _ map[string]*core.NodeOption) {
-	text := inputs[0].(string)
-	if len(text) > 0 {
-		interactionLayer.Print(text)
-	}
+	from := inputs[0].(string)
+	to := inputs[1].(string)
+	interactionLayer.RenameFile(from, to)
 }
 
 func newRenameFileNode() *core.Node {
 	node := core.NewNodeCreator(
-		"Log",
-		"Output",
+		"RenameFile",
+		"File",
 		[]core.NodeInput{
+			core.NewNodeInput(core.FTypeString, "Text", ""),
 			core.NewNodeInput(core.FTypeString, "Text", ""),
 		},
 		[]*core.NodeOutput{},
 	)
 
-	node.ExecutiveFunction = printOutput
+	node.ExecutiveFunction = renameFileOutput
 
 	return node
 }

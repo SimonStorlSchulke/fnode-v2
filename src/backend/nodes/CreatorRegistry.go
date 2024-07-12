@@ -23,6 +23,8 @@ var nodeCreatorRegistry = map[string]func() *core.Node{
 	"File.FileInfo":     newFileInfoNode,
 	"File.FilterFiles":  newFileFilterNode,
 	"File.DeleteFile":   newDeleteFileNode,
+	"File.MoveFile":     newMoveFileNode,
+	"File.RenameFile":   newRenameFileNode,
 }
 
 func Create(nodeType string) (*core.Node, error) {
